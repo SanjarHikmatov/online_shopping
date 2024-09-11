@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="{% url 'home-page' %}">Home</a>
+                    <a class="breadcrumb-item text-dark" href="{% url 'shop-page' %}">Shop</a>
+                    <span class="breadcrumb-item active" style="color: blue">{{ page }}</span>
+                </nav>
+            </div>
+        </div>
+    </div>
