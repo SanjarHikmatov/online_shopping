@@ -4,10 +4,10 @@ from apps.sellers.models import Seller, SellerSocialLink
 
 
 @register(Seller)
-class CategoryTranslationOptions(TranslationOptions):
+class SellerTranslationOptions(TranslationOptions):
     fields = ('name', 'description')
 
 
 @register(SellerSocialLink)
-class CategoryTranslationOptions(TranslationOptions):
+class SellerSocialLinkTranslationOptions(TranslationOptions):
     fields = ('social_media', 'link')

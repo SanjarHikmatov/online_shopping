@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!doctype html>
 
 <html
@@ -15,7 +16,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Register Basic - Pages | Materio - Bootstrap Material Design Admin Template</title>
+    <title>{% translate 'Register Basic - Pages | Materio - Bootstrap Material Design Admin Template' %}</title>
 
     <meta name="description" content="" />
 
@@ -126,13 +127,13 @@
                     </svg>
                   </span>
                 </span>
-                <span class="app-brand-text demo text-heading fw-semibold">Materio</span>
+                <span class="app-brand-text demo text-heading fw-semibold">{% translate 'Materio' %}</span>
               </a>
             </div>
             <!-- /Logo -->
                 <div class="card-body mt-1">
-              <h4 class="mb-1">Adventure starts here 🚀</h4>
-              <p class="mb-5">Make your app management easy and fun!</p>
+              <h4 class="mb-1">{% translate 'Adventure starts here 🚀' %}</h4>
+              <p class="mb-5">{% translate 'Make your app management easy and fun!' %}</p>
 
               <form id="formAuthentication" class="mb-5" action="{% url 'user-register' %}" method="POST">
                   {% csrf_token %}
@@ -144,11 +145,11 @@
                     name="username"
                     placeholder="Enter your username"
                     autofocus />
-                  <label for="username">Username</label>
+                  <label for="username">{% translate 'Username' %}</label>
                 </div>
                 <div class="form-floating form-floating-outline mb-5">
                   <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" />
-                  <label for="email">Email</label>
+                  <label for="email">{% translate 'Email' %}</label>
                 </div>
                 <div class="mb-5 form-password-toggle">
                   <div class="input-group input-group-merge">
@@ -160,7 +161,7 @@
                         name="password"
                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                         aria-describedby="password" />
-                      <label for="password">Password</label>
+                      <label for="password">{% translate 'Password' %}</label>
                     </div>
                     <span class="input-group-text cursor-pointer"><i class="ri-eye-off-line ri-20px"></i></span>
                   </div>
@@ -171,18 +172,18 @@
                     <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
                     <label class="form-check-label" for="terms-conditions">
                       I agree to
-                      <a href="javascript:void(0);">privacy policy & terms</a>
+                      <a href="javascript:void(0);">{% translate 'privacy policy & terms' %}</a>
                     </label>
                   </div>
                 </div>
-                <button class="btn btn-primary d-grid w-100 mb-5" type="submit">Sign up</button>
+                <button class="btn btn-primary d-grid w-100 mb-5" type="submit">{% translate 'Sign up' %}</button>
               </form>
 
 
               <p class="text-center mb-5">
-                <span>Already have an account?</span>
+                <span>{% translate 'Already have an account?' %}</span>
                 <a href="{% url 'login-page' %}">
-                  <span>Sign in instead</span>
+                  <span>{% translate 'Sign in instead' %}</span>
                 </a>
               </p>
             </div>
@@ -214,7 +215,7 @@
         href="https://themeselection.com/item/materio-bootstrap-html-admin-template/"
         target="_blank"
         class="btn btn-danger btn-buy-now"
-        >Upgrade to Pro</a
+        >{% translate 'Upgrade to Pro' %}</a
       >
     </div>
 

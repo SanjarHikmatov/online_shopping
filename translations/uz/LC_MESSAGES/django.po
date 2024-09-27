@@ -16,100 +16,98 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
-"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: config/settings/translation.py:15
 msgid "Uzbek"
-msgstr ""
+msgstr "Uzbek"
 
 #: config/settings/translation.py:16
 msgid "Russian"
-msgstr ""
+msgstr "Rus"
 
 #: config/settings/translation.py:17
 msgid "English"
-msgstr ""
+msgstr "Ingliz"
 
 #: templates/about.html:19
 msgid "About Us"
-msgstr ""
+msgstr "Biz haqimizda"
 
 #: templates/auth/auth-login-basic.html:130
 msgid "Online Shopping"
-msgstr ""
+msgstr "Online Savdo"
 
 #: templates/auth/auth-login-basic.html:136
 msgid "Welcome to Online Shopping! 👋🏻"
-msgstr ""
+msgstr "Hush kelibsiz Online Shopping ga 👋🏻"
 
 #: templates/auth/auth-login-basic.html:137
 msgid "Please sign-in to your account and start the adventure"
-msgstr ""
+msgstr "Iltimos, akkountingizga kiring va tomosha qilishni boshlang boshlang."
 
 #: templates/auth/auth-login-basic.html:153
 #: templates/auth/auth-login-basic.html:166
 #: templates/auth/auth-login-basic.html:176
 msgid "Email or Username"
-msgstr ""
+msgstr "Emali yoki Ismingizni kiriting"
 
 #: templates/auth/auth-login-basic.html:179
 msgid "Forgot Password ?"
-msgstr ""
+msgstr "Parolni Unitdingizmi?"
 
 #: templates/auth/auth-login-basic.html:188
 msgid "New on our platform ?"
-msgstr ""
+msgstr "Yangi bizning platforma"
 
 #: templates/auth/auth-login-basic.html:190
 msgid "Create an account"
-msgstr ""
+msgstr "Akkont yaratish"
 
 #: templates/auth/auth-register-basic.html:19
 msgid ""
 "Register Basic - Pages | Materio - Bootstrap Material Design Admin Template"
-msgstr ""
+msgstr "Oddiy Ro'yxatdan O'tish - Sahifalar | Materio - Bootstrap Material Dizayn Administrativ Shablon"
 
 #: templates/auth/auth-register-basic.html:130
 msgid "Materio"
-msgstr ""
+msgstr "Materio"
 
 #: templates/auth/auth-register-basic.html:135
 msgid "Adventure starts here 🚀"
-msgstr ""
+msgstr "Ko'rib chiqishni  shu yerda boshlanadi 🚀"
 
 #: templates/auth/auth-register-basic.html:136
 msgid "Make your app management easy and fun!"
-msgstr ""
+msgstr "Oson yarat o'zingni app managementingni va hursandchilik qil"
 
 #: templates/auth/auth-register-basic.html:148
 msgid "Username"
-msgstr ""
+msgstr "Ismingiz"
 
 #: templates/auth/auth-register-basic.html:152
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/auth/auth-register-basic.html:164
 msgid "Password"
-msgstr ""
+msgstr "Parol"
 
 #: templates/auth/auth-register-basic.html:175
 msgid "privacy policy & terms"
-msgstr ""
+msgstr "Maxfiylik Siyosati va Shartlar"
 
 #: templates/auth/auth-register-basic.html:179 templates/bases/basic.html:56
 msgid "Sign up"
-msgstr ""
+msgstr "Ro'yxatdan o'tish"
 
 #: templates/auth/auth-register-basic.html:184
 msgid "Already have an account?"
-msgstr ""
+msgstr "Alaqachon akkountingiz bor"
 
 #: templates/auth/auth-register-basic.html:186
 msgid "Sign in instead"
-msgstr ""
+msgstr "Boshqa kiring"
 
 #: templates/auth/auth-register-basic.html:218
 msgid "Upgrade to Pro"
@@ -117,86 +115,86 @@ msgstr ""
 
 #: templates/bases/basic.html:38
 msgid "About"
-msgstr ""
+msgstr "Biz haqimizda"
 
 #: templates/bases/basic.html:39 templates/bases/basic.html:223
 #: templates/bases/basic.html:281
 msgid "Contact"
-msgstr ""
+msgstr "Biz bila aloqa"
 
 #: templates/bases/basic.html:40
 msgid "Help"
-msgstr ""
+msgstr "Yordam"
 
 #: templates/bases/basic.html:41
 msgid "FAQs"
-msgstr ""
+msgstr "FAQs"
 
 #: templates/bases/basic.html:52
 msgid "Log out"
-msgstr ""
+msgstr "Chiqish"
 
 #: templates/bases/basic.html:66
 msgid "USD"
-msgstr ""
+msgstr "USD"
 
 #: templates/bases/basic.html:69
 msgid "EUR"
-msgstr ""
+msgstr "EUR"
 
 #: templates/bases/basic.html:70
 msgid "GBP"
-msgstr ""
+msgstr "GBP"
 
 #: templates/bases/basic.html:71
 msgid "CAD"
-msgstr ""
+msgstr "CAD"
 
 #: templates/bases/basic.html:106 templates/bases/basic.html:197
 msgid "Multi"
-msgstr ""
+msgstr "Ko'p"
 
 #: templates/bases/basic.html:107 templates/bases/basic.html:198
 #: templates/bases/basic.html:208 templates/bases/basic.html:290
 msgid "Shop"
-msgstr ""
+msgstr "Harid qilish"
 
 #: templates/bases/basic.html:123
 msgid "Customer Service"
-msgstr ""
+msgstr "Mijozlar Xizmati"
 
 #: templates/bases/basic.html:136
 msgid "Categories"
-msgstr ""
+msgstr "Kategoriyalar"
 
 #: templates/bases/basic.html:206 templates/bases/basic.html:288
 msgid "Home"
-msgstr ""
+msgstr "Asosiy"
 
 #: templates/bases/basic.html:212
 msgid "Pages"
-msgstr ""
+msgstr "Sahifalar"
 
 #: templates/bases/basic.html:215
 msgid "Shopping"
-msgstr ""
+msgstr "Harid qilish"
 
 #: templates/bases/basic.html:218 templates/bases/basic.html:279
 #: templates/bases/basic.html:293
 msgid "Checkout"
-msgstr ""
+msgstr "To'lov"
 
 #: templates/bases/basic.html:225
 msgid "About us"
-msgstr ""
+msgstr "Biz haqimizda"
 
 #: templates/bases/basic.html:226
 msgid "Register"
-msgstr ""
+msgstr "Ro'yhatdan o'tish"
 
 #: templates/bases/basic.html:258
 msgid "Get In Touch"
-msgstr ""
+msgstr "Aloqa o'rnatish"
 
 #: templates/bases/basic.html:262
 msgid "123 Street, New York, USA"
@@ -204,35 +202,35 @@ msgstr ""
 
 #: templates/bases/basic.html:269
 msgid "Quick Shop"
-msgstr ""
+msgstr "Tez savdo"
 
 #: templates/bases/basic.html:273 templates/bases/basic.html:289
 msgid "Our Shop"
-msgstr ""
+msgstr "Bizning savdo"
 
 #: templates/bases/basic.html:275
 msgid "Shop Detail"
-msgstr ""
+msgstr "Do'kon Tafsilotlari"
 
 #: templates/bases/basic.html:277 templates/bases/basic.html:292
 msgid "Shopping Cart"
-msgstr ""
+msgstr "Savatcha"
 
 #: templates/bases/basic.html:294
 msgid "Contact Us"
-msgstr ""
+msgstr "Biz bila bog;lanish"
 
 #: templates/bases/basic.html:298
 msgid "Newsletter"
-msgstr ""
+msgstr "Axborot byulleteni"
 
 #: templates/bases/basic.html:304
 msgid "Sign Up"
-msgstr ""
+msgstr "Ro;yhatdan o'tish"
 
 #: templates/bases/basic.html:308
 msgid "Follow Us"
-msgstr ""
+msgstr "Bizni kuzating"
 
 #: templates/bases/basic.html:324
 msgid "HTML Codex"
@@ -240,47 +238,47 @@ msgstr ""
 
 #: templates/cart.html:18
 msgid "Products"
-msgstr ""
+msgstr "Maxsulotlar"
 
 #: templates/cart.html:19
 msgid "Price"
-msgstr ""
+msgstr "Narxi"
 
 #: templates/cart.html:20
 msgid "Quantity"
-msgstr ""
+msgstr "Miqdor"
 
 #: templates/cart.html:21
 msgid "Total"
-msgstr ""
+msgstr "Umumiy"
 
 #: templates/cart.html:22
 msgid "Remove"
-msgstr ""
+msgstr "O'zgartirish"
 
 #: templates/cart.html:27 templates/cart.html:48 templates/cart.html:69
 msgid "Product Name"
-msgstr ""
+msgstr "Mahsulot nomi"
 
 #: templates/cart.html:90
 msgid " Product Name"
-msgstr ""
+msgstr "Mahsulot nomi"
 
 #: templates/cart.html:160
 msgid "Proceed To Checkout"
-msgstr ""
+msgstr "To'lovga o'tish"
 
 #: venv/lib/python3.10/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
-msgstr ""
+msgstr "Xabarlar"
 
 #: venv/lib/python3.10/site-packages/django/contrib/sitemaps/apps.py:8
 msgid "Site Maps"
-msgstr ""
+msgstr "Sayt Xaritalari"
 
 #: venv/lib/python3.10/site-packages/django/contrib/staticfiles/apps.py:9
 msgid "Static Files"
-msgstr ""
+msgstr "Statik Fayllar"
 
 #: venv/lib/python3.10/site-packages/django/contrib/syndication/apps.py:7
 msgid "Syndication"

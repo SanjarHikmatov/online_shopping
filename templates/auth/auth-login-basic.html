@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load i18n %}
 <!doctype html>
 <html
         lang="en"
@@ -127,14 +127,14 @@
                     </svg>
                   </span>
                 </span>
-                        <span class="app-brand-text demo text-heading fw-semibold">Online Shopping</span>
+                        <span class="app-brand-text demo text-heading fw-semibold">{% translate 'Online Shopping' %}</span>
                     </a>
                 </div>
                 <!-- /Logo -->
 
                 <div class="card-body mt-1">
-                    <h4 class="mb-1">Welcome to Online Shopping! 👋🏻</h4>
-                    <p class="mb-5">Please sign-in to your account and start the adventure</p>
+                    <h4 class="mb-1">{% translate 'Welcome to Online Shopping! 👋🏻' %}</h4>
+                    <p class="mb-5">{% translate 'Please sign-in to your account and start the adventure' %}</p>
                     {% for message in messages %}
                         <p class="mb-5" style="color: {% if message.level != 25 %}red {% else %}green {% endif %}">
                             {{ message }}
@@ -150,7 +150,7 @@
                                     name="username"
                                     placeholder="Enter your email or username"
                                     autofocus/>
-                            <label for="email">Email or Username</label>
+                            <label for="email">{% translate 'Email or Username' %}</label>
                         </div>
                         <div class="mb-5">
                             <div class="form-password-toggle">
@@ -163,7 +163,7 @@
                                                 name="password"
                                                 placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                                 aria-describedby="password"/>
-                                        <label for="password">Password</label>
+                                        <label for="password">x{% translate 'Email or Username' %}</label>
                                     </div>
                                     <span class="input-group-text cursor-pointer"><i
                                             class="ri-eye-off-line ri-20px"></i></span>
@@ -173,10 +173,10 @@
                         <div class="mb-5 pb-2 d-flex justify-content-between pt-2 align-items-center">
                             <div class="form-check mb-0">
                                 <input class="form-check-input" type="checkbox" id="remember-me"/>
-                                <label class="form-check-label" for="remember-me"> Remember Me </label>
+                                <label class="form-check-label" for="remember-me"> x{% translate 'Email or Username' %} </label>
                             </div>
                             <a href="auth-forgot-password-basic.html" class="float-end mb-1">
-                                <span>Forgot Password?</span>
+                                <span>{% translate 'Forgot Password ?' %}</span>
                             </a>
                         </div>
                         <div class="mb-5">
@@ -185,9 +185,9 @@
                     </form>
 
                     <p class="text-center mb-5">
-                        <span>New on our platform?</span>
+                        <span>{% translate 'New on our platform ?' %}</span>
                         <a href="{% url 'register-page' %}">
-                            <span>Create an account</span>
+                            <span>{% translate 'Create an account' %}</span>
                         </a>
                     </p>
                 </div>
