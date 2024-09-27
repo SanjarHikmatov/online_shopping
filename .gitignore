@@ -5,3 +5,4 @@ venv
 db.sqlite3
 
 !**/migrations/__init__.py
+main.py
