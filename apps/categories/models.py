@@ -12,22 +12,12 @@ class Category(models.Model):
                                related_query_name='category'
                                )
 
-
     def clean(self):
         try:
             if not self.pk and self.parent.parent.parent:
                 raise ValidationError('you can creat only three category')
         except AttributeError:
             pass
-
-    # def category_filter(self):
-    #     if self.parent is None:
-    #         return self.name
-    #     elif self.parent.parent is not None and self.children:
-    #         return self.name
-    #     elif self.parent.parent is not None and self.children is None:
-    #         return self.name
-
 
     def __str__(self):
         return self.name

@@ -14,15 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls.static import static
+from django.conf.urls.i18n import i18n_patterns, urlpatterns
 from django.contrib import admin
-from django.urls import path
-from apps.main.views import home, shop, contact, detail, checkout, cart, about, login_page
+from django.urls import path, include
+
+from apps.main.views import home, shop, contact, detail, checkout, cart
 
 from apps.categories.views import category
-from apps.registers.views import register
 from config import settings
-from config.settings import STATIC_URL
+from apps.wishlists.views import wishlist_view
+from django.conf.urls.static import static
+from apps.authentication import views as v
+
+
+from apps.generals.views import set_language
+
+import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,11 +40,26 @@ urlpatterns = [
     path('cart/', cart, name='cart-page'),
     path('shop/', shop, name='shop-page'),
     path('category/', category, name='category-page'),
-    path('register/', register, name='register-page'),
-    path('about/', about, name='about-page'),
-    path('login-page/', login_page, name='login-page'),
+    # ========== set language =========
+    path('set-language/<str:lang>/', set_language, name='set-lang'),
 
+    path('wishlist/', wishlist_view, name='wishlist-page'),
+    path('register/', v.register_page, name='register-page'),
+    path('user_register/', v.user_register, name='user-register'),
+    path('login_page/', v.login_page, name='login-page'),
+    path('user_login/', v.user_login, name='user-login'),
+    path('user_logout/', v.user_logout, name='user-logout'),
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
 
+urlpatterns += i18n_patterns(
+    # ========== about urls ===========
+    path('about/', include('apps.abouts.urls', namespace='about')),
+
+)
 # if settings.DEBUG:
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# urlpatterns += i18n_patterns(
+#
+# )
