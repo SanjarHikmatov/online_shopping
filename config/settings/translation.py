@@ -17,4 +17,4 @@ LANGUAGES = (
     ('en', _('English')),
 )
 
-MODELTRANSLATION_LANGUAGE = ('uz', 'ru')
+MODELTRANSLATION_LANGUAGE = ('uz', 'ru', 'en')

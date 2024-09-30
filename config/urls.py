@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.conf.urls.i18n import i18n_patterns, urlpatterns
 from django.contrib import admin
+from django.contrib.admin.templatetags.admin_urls import admin_urlquote
 from django.urls import path, include
 
 from apps.main.views import home, shop, contact, detail, checkout, cart
@@ -24,16 +25,16 @@ from apps.categories.views import category
 from config import settings
 from apps.wishlists.views import wishlist_view
 from django.conf.urls.static import static
-from apps.authentication import views as v
+from apps.authentication import views as auth_views
 
-
-from apps.generals.views import set_language
-
-import debug_toolbar
+from apps.generals.views import set_language, search
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home-page'),
+
+    path('search/', search, name='search'),
+
     path('detail/', detail, name='detail-page'),
     path('contact/', contact, name='contact-page'),
     path('checkout/', checkout, name='checkout-page'),
@@ -44,12 +45,13 @@ urlpatterns = [
     path('set-language/<str:lang>/', set_language, name='set-lang'),
 
     path('wishlist/', wishlist_view, name='wishlist-page'),
-    path('register/', v.register_page, name='register-page'),
-    path('user_register/', v.user_register, name='user-register'),
-    path('login_page/', v.login_page, name='login-page'),
-    path('user_login/', v.user_login, name='user-login'),
-    path('user_logout/', v.user_logout, name='user-logout'),
-    path('__debug__/', include(debug_toolbar.urls)),
+    path('register/', auth_views.register_page, name='register-page'),
+    path('user_register/', auth_views.user_register, name='user-register'),
+    path('login_page/', auth_views.login_page, name='login-page'),
+    path('user_login/', auth_views.user_login, name='user-login'),
+    path('user_logout/', auth_views.user_logout, name='user-logout'),
+
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 urlpatterns += i18n_patterns(

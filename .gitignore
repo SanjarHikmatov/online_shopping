@@ -1,6 +1,6 @@
 .env
 .idea
-venv
+myenv
 */__pycache__/
 db.sqlite3
 

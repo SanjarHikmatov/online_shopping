@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'apps.authentication',
     'apps.abouts',
     'apps.sellers',
+    'apps.users',
     # =============modeltranslation=========
     # 'modeltranslation',
 
