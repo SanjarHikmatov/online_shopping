@@ -1,15 +1,8 @@
-"""biz seller app da translation ni
-qo'lda yozganmiz qolganlarini
-modeltranslation dan foydalandim
-"""
-# from random import choices
 from django.db import models
 from apps.generals.choices import SocialMedia
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-# from django.utils.translation.trans_null import gettext_lazy as _, get_language
-# from django.utils.translation.trans_real import gettext
 
 
 class Seller(models.Model):
@@ -28,6 +21,45 @@ class Seller(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
 
+
+class SellerSocialLink(models.Model):
+    social_media = models.PositiveSmallIntegerField(
+        choices=SocialMedia.choices,
+        default=SocialMedia.TELEGRAM
+    )
+    link = models.URLField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.social_media
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from django.utils.translation.trans_null import gettext_lazy as _, get_language
+# from django.utils.translation.trans_real import gettext
 
 #
 #     @property
@@ -62,12 +94,8 @@ class Seller(models.Model):
 #     language = models.CharField(max_length=10, choices=Language.choices)
 #
 
-class SellerSocialLink(models.Model):
-    social_media = models.PositiveSmallIntegerField(
-        choices=SocialMedia.choices,
-        default=SocialMedia.TELEGRAM
-    )
-    link = models.URLField(max_length=255, unique=True)
-
-    def __str__(self):
-        return self.social_media
+"""biz seller app da translation ni
+qo'lda yozganmiz qolganlarini
+modeltranslation dan foydalandim
+"""
+# from random import choices

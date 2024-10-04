@@ -20,6 +20,12 @@ INSTALLED_APPS = [
     'apps.abouts',
     'apps.sellers',
     'apps.users',
+    'apps.products',
+    'apps.ratings',
+    'apps.comments',
+    'apps.coupons',
+    'apps.orders',
+    'apps.features',
     # =============modeltranslation=========
     # 'modeltranslation',
 

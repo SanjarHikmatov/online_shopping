@@ -6,4 +6,4 @@ from apps.products.models import Product
 
 @admin.register(Product)
 class ProductAdmin(TranslationAdmin):
-    list_display = ('title', 'price', 'total_rating', 'category')
+    list_display = ('title', 'price', 'avg_rating', 'category')
