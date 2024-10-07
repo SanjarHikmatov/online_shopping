@@ -14,3 +14,4 @@ def about(request):
                'abouts': About.objects.all(),
     }
     return render(request=request, template_name='about.html', context=context)
+print('hello')
