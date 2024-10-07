@@ -26,7 +26,7 @@ from django.conf.urls.static import static
 from apps.authentication import views as auth_views
 
 from apps.general.views import set_language, search
-from apps.wishlists import views
+# from apps.wishlists import views as wishlists_views
 urlpatterns = [
 
     path('__debug__/', include('debug_toolbar.urls')),
@@ -36,9 +36,9 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
 # ========== about urls ===========
     path('about/', include('apps.abouts.urls', namespace='about')),
-    # path('wishlists/', include('apps.wishlists.urls', namespace='wishlist')),
-    path('wishlist_add_page/', views.view_wishlist, name='wishlist-add-page'),
-    path('wishlist-page', views.wishlist_page, name='wishlist-page'),
+    path('wishlists/', include('apps.wishlists.urls', namespace='wishlist')),
+    # path('wishlist_add_page/<int:product_id>/', wishlists_views.wishlist_create, name='wishlist-add-page'),
+    # path('wishlist-page', wishlists_views.wishlist_page, name='wishlist-page'),
     path('admin/', admin.site.urls),
     path('', home, name='home-page'),
 

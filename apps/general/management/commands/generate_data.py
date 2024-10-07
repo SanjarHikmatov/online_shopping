@@ -1,7 +1,5 @@
 import os
-# import random
 
-import requests
 from random import randint, choice
 from faker import Faker
 

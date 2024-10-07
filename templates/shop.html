@@ -165,7 +165,7 @@
                     {% for product in page_obj %}
                         <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                             <div class="product-item bg-light mb-4">
-                                <div class="product-img position-relative overflow-hidden">
+                                <div style="height: 400px" class="product-img position-relative overflow-hidden">
                                     {% if product.main_image %}
                                         <img class="img-fluid w-100" src="{{ product.main_image.url }}" alt="">
                                     {% else %}
@@ -174,14 +174,12 @@
                                              alt="">
                                     {% endif %}
                                     <div class="product-action">
+
                                         <a class="btn btn-outline-dark btn-square" href=""><i
                                                 class="fa fa-shopping-cart"></i></a>
-                                        <form method="post" action="{% url 'wishlist-add-page' %}">
-                                            {% csrf_token %}
-                                            <a class="btn btn-outline-dark btn-square"
-                                               href="{% url 'wishlist-add-page' %}"><i
-                                                    class="far fa-heart"></i></a>
-                                        </form>
+                                        <a class="btn btn-outline-dark btn-square" href="{% url 'wishlists:wishlist-create' product_id=product.id %}">
+                                            <i class="far fa-heart"></i>
+                                        </a>
                                         <a class="btn btn-outline-dark btn-square" href=""><i
                                                 class="fa fa-sync-alt"></i></a>
                                         <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
