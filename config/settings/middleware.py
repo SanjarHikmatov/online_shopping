@@ -14,5 +14,5 @@ MIDDLEWARE = [
     # ===========modeltranslation==========
     'django.middleware.locale.LocaleMiddleware',
 
-    # 'apps.generals.middleware.CurrLangMiddleware'
+    # 'apps.general.middleware.CurrLangMiddleware'
 ]

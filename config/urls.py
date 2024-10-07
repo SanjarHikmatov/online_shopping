@@ -22,12 +22,11 @@ from apps.main.views import home, shop, contact, detail, checkout, cart
 
 from apps.categories.views import category
 from django.conf import settings
-from apps.wishlists.views import wishlist_view
 from django.conf.urls.static import static
 from apps.authentication import views as auth_views
 
-from apps.generals.views import set_language, search
-
+from apps.general.views import set_language, search
+from apps.wishlists import views
 urlpatterns = [
 
     path('__debug__/', include('debug_toolbar.urls')),
@@ -37,11 +36,13 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
 # ========== about urls ===========
     path('about/', include('apps.abouts.urls', namespace='about')),
-
+    # path('wishlists/', include('apps.wishlists.urls', namespace='wishlist')),
+    path('wishlist_add_page/', views.view_wishlist, name='wishlist-add-page'),
+    path('wishlist-page', views.wishlist_page, name='wishlist-page'),
     path('admin/', admin.site.urls),
     path('', home, name='home-page'),
 
-    path('search/', search, name='search'),
+    path('search/<str:product_title>', search, name='search'),
 
     path('detail/', detail, name='detail-page'),
     path('contact/', contact, name='contact-page'),
@@ -52,7 +53,6 @@ urlpatterns += i18n_patterns(
     # ========== set language =========
     path('set-language/<str:lang>/', set_language, name='set-lang'),
 
-    path('wishlist/', wishlist_view, name='wishlist-page'),
     path('register/', auth_views.register_page, name='register-page'),
     path('user_register/', auth_views.user_register, name='user-register'),
     path('login_page/', auth_views.login_page, name='login-page'),

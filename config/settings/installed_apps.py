@@ -14,7 +14,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
 
     # ==================Apps================
-    'apps.generals',
+    'apps.general',
     'apps.categories',
     'apps.authentication',
     'apps.abouts',
@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'apps.coupons',
     'apps.orders',
     'apps.features',
+    'apps.wishlists',
     # =============modeltranslation=========
     # 'modeltranslation',
 

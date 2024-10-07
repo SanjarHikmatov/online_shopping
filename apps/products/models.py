@@ -3,29 +3,40 @@ from apps.comments.models import ProductComment
 from apps.ratings.models import ProductRating
 
 
+class CurrencyChoices(models.TextChoices):
+    USD = '0', 'USD'
+    EUR = '1', 'EUR'
+    JPY = '2', 'JPY'
+    UZS = '3', 'UZS'
+
+
 class Product(models.Model):
-    class Currency(models.TextChoices):
-        USD = '0', ('USD')
-        EUR = '1', ('EUR')
-        JPY = '2', ('JPY')
-        UZS = '3', ('UZS')
 
     title = models.CharField(max_length=255)
-    avg_rating = models.DecimalField(max_digits=10, decimal_places=1, default=0, editable=False)
-    comment_count = models.DecimalField(max_digits=10, decimal_places=1, default=0, editable=False)
+    avg_rating = models.DecimalField(
+        max_digits=10,
+        decimal_places=1,
+        default=0,
+        editable=False)
+    comment_count = models.DecimalField(
+        max_digits=10,
+        decimal_places=1,
+        default=0,
+        editable=False)
     price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    currency = models.CharField(choices=Currency.choices, default='USD', max_length=5)
+    old_price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    currency = models.CharField(choices=CurrencyChoices.choices, default='USD', max_length=5)
     short_description = models.CharField(max_length=500)
-    long_description = models.TextField()
+    long_description = models.TextField(max_length=500)
     category = models.ForeignKey('categories.Category', on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     added_at = models.DateTimeField(auto_now_add=True)
-    main_image = models.ImageField(upload_to='products/main/images%Y/%m/%d/', blank=True)
+    main_image = models.ImageField(upload_to='products/images%Y/%m/%d/', blank=True)
 
     def set_avg_rating(self):
         aggregate_amounts = ProductRating.objects.filter(
             product_id=self.pk).aggregate(
-            avg=models.Avg('rating', default=0),
+            avg=models.Avg('rating', default=1),
         )
         self.avg_rating = round(aggregate_amounts['avg'], 1)
         self.save()

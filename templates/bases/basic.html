@@ -45,11 +45,12 @@
             <div class="d-inline-flex align-items-center">
                 <div class="btn-group">
                     {% if  user.is_authenticated %}
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
-                            data-toggle="dropdown">{{ user.username }}</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle"
+                                data-toggle="dropdown">{{ user.username }}</button>
                     {% else %}
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
-                            data-toggle="dropdown">Anonim User</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle"
+                                data-toggle="dropdown">Anonim User
+                        </button>
                     {% endif %}
                     <div class="dropdown-menu dropdown-menu-right">
                         {% if user.is_authenticated %}
@@ -115,9 +116,9 @@
             </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-            <form action="{% url 'search' %}" method="post">
+            <form action="{% url 'search' product_title='product_title' %}" method="post">
+                {% csrf_token %}
                 <div class="input-group">
-                    {% csrf_token %}
                     <input type="text" class="form-control" name="search" placeholder="Search for products"
                            value="{{ request.session.search }}">
                     <div class="input-group-append">
@@ -222,20 +223,26 @@
                            class="nav-item nav-link {% if page == 'contact' %} active {% endif %}">{% translate 'Contact' %}</a>
                         <a href="{% url 'about:about-page' %}"
                            class="nav-item nav-link {% if page == 'about' %} active {% endif %} ">{% translate 'About us' %}</a>
+                        <a href="{% url 'detail-page' %}"
+                           class="nav-item nav-link {% if page == 'detail' %} active {% endif %} ">{% translate 'Shop detail' %}</a>
 
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                        <a href="{% url 'wishlist-page' %}" class="btn px-0">
-                            <i class="fas fa-heart text-primary"></i>
-                            <span class="badge text-secondary border border-secondary rounded-circle"
-                                  style="padding-bottom: 2px;">0</span>
-                        </a>
-                        <a href="{% url 'cart-page' %}" class="btn px-0 ml-3">
+                        <form method="post">
+                            {% csrf_token %}
+                            <a href="{% url 'wishlist-page' %}" class="btn px-0">
+                                <i class="fas fa-heart text-primary"></i>
+                                <span class="badge text-secondary border border-secondary rounded-circle"
+                                      style="padding-bottom: 2px;">0</span>
+                            </a>
 
-                            <i class="fas fa-shopping-cart text-primary {% if page == 'wishlist' %} active {% endif %}"></i>
-                            <span class="badge text-secondary border border-secondary rounded-circle"
-                                  style="padding-bottom: 2px;">0</span>
-                        </a>
+                            <a href="{% url 'cart-page' %}" class="btn px-0 ml-3">
+
+                                <i class="fas fa-shopping-cart text-primary {% if page == 'wishlist' %} active {% endif %}"></i>
+                                <span class="badge text-secondary border border-secondary rounded-circle"
+                                      style="padding-bottom: 2px;">0</span>
+                            </a>
+                        </form>
                     </div>
                 </div>
             </nav>

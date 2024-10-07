@@ -1,5 +1,5 @@
 from django.db import models
-from apps.generals.choices import SocialMedia
+from apps.general.choices import SocialMedia
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 

@@ -13,7 +13,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                 # ===============This is my context=====================
-                'apps.generals.context_processors.general_context',
+                'apps.general.context_processors.general_context',
                 'apps.categories.contex_processors.categories_contex',
 
             ],

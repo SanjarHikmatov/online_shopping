@@ -1,10 +1,12 @@
 {% extends 'bases/basic.html' %}
 {% load static %}
 {% block content %}
+{% load i18n %}
 
     <!-- Breadcrumb Start -->
     {% include 'includes/breadcrumb.html' with page='Shopping cart' %}
     <!-- Breadcrumb End -->
+	<p>{{ request.session.wishlists }} <h1>hello</h1></p>
 
 
     <!-- Cart Start -->
