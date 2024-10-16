@@ -1,37 +1,40 @@
+from decimal import Decimal
+
 from django.db import models
 from apps.comments.models import ProductComment
 from apps.ratings.models import ProductRating
 
 
 class CurrencyChoices(models.TextChoices):
-    USD = '0', 'USD'
-    EUR = '1', 'EUR'
-    JPY = '2', 'JPY'
-    UZS = '3', 'UZS'
+    USD = 'USD', 'USD'
+    EUR = 'EUR', 'EUR'
+    JPY = 'JPY', 'JPY'
+    UZS = 'UZS', 'UZS'
 
 
 class Product(models.Model):
+    DEFAULT_CURRENCY = CurrencyChoices.UZS
 
     title = models.CharField(max_length=255)
     avg_rating = models.DecimalField(
         max_digits=10,
         decimal_places=1,
-        default=0,
+        default=Decimal('0'),
         editable=False)
     comment_count = models.DecimalField(
         max_digits=10,
         decimal_places=1,
-        default=0,
+        default=Decimal('0'),
         editable=False)
-    price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    old_price = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))
+    old_price = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))
     currency = models.CharField(choices=CurrencyChoices.choices, default='USD', max_length=5)
     short_description = models.CharField(max_length=500)
     long_description = models.TextField(max_length=500)
     category = models.ForeignKey('categories.Category', on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     added_at = models.DateTimeField(auto_now_add=True)
-    main_image = models.ImageField(upload_to='products/images%Y/%m/%d/', blank=True)
+    main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/', blank=True)
 
     def set_avg_rating(self):
         aggregate_amounts = ProductRating.objects.filter(

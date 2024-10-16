@@ -18,46 +18,36 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.main.views import home, shop, contact, detail, checkout, cart
+from apps.main.views import home, contact, checkout, cart
 
 from apps.categories.views import category
 from django.conf import settings
 from django.conf.urls.static import static
-from apps.authentication import views as auth_views
 
-from apps.general.views import set_language, search
-# from apps.wishlists import views as wishlists_views
+
 urlpatterns = [
+    # ========== set language =========
+    path('searchs/', include('apps.general.urls', namespace='searchs')),
 
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 
-
 urlpatterns += i18n_patterns(
-# ========== about urls ===========
+    # ========== about urls ===========
     path('about/', include('apps.abouts.urls', namespace='about')),
     path('wishlists/', include('apps.wishlists.urls', namespace='wishlist')),
-    # path('wishlist_add_page/<int:product_id>/', wishlists_views.wishlist_create, name='wishlist-add-page'),
-    # path('wishlist-page', wishlists_views.wishlist_page, name='wishlist-page'),
+    path('comments/', include('apps.comments.urls', namespace='comments')),
+
     path('admin/', admin.site.urls),
     path('', home, name='home-page'),
 
-    path('search/<str:product_title>', search, name='search'),
-
-    path('detail/', detail, name='detail-page'),
     path('contact/', contact, name='contact-page'),
     path('checkout/', checkout, name='checkout-page'),
     path('cart/', cart, name='cart-page'),
-    path('products/', include('apps.products.urls',namespace='products')),
+    path('products/', include('apps.products.urls', namespace='products')),
     path('category/', category, name='category-page'),
-    # ========== set language =========
-    path('set-language/<str:lang>/', set_language, name='set-lang'),
 
-    path('register/', auth_views.register_page, name='register-page'),
-    path('user_register/', auth_views.user_register, name='user-register'),
-    path('login_page/', auth_views.login_page, name='login-page'),
-    path('user_login/', auth_views.user_login, name='user-login'),
-    path('user_logout/', auth_views.user_logout, name='user-logout'),
+    path('authentications/', include('apps.authentication.urls', namespace='authentications')),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 )

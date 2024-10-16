@@ -1,19 +1,19 @@
 from django.db import models
-from .validation_phone import validate_phone
+from .validation_phone import uzb_phone_number_validators
 from django.core.exceptions import ValidationError
 
 
 class General(models.Model):
     phone1 = models.CharField(
         max_length=13,
-        validators=[validate_phone],
+        validators=[uzb_phone_number_validators],
         help_text="UZB Number +998123456789"
     )
     phone2 = models.CharField(
         max_length=13,
         null=True,
         blank=True,
-        validators=[validate_phone]
+        validators=[uzb_phone_number_validators]
     )
 
     location = models.URLField()

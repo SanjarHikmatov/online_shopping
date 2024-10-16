@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
+from modeltranslation.utils import unique
 
 
 class UserRegisterForm(forms.Form):
@@ -57,3 +58,27 @@ class UserRegisterForm(forms.Form):
         if password != confirm_password:
             raise ValidationError("Passwords do not match")
         return data
+
+
+
+class UserLoginForm(forms.Form):
+    email = forms.EmailField(
+        validators=[validate_password],
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                "placeholder": "Email",
+            }
+        )
+    )
+    password = forms.CharField(
+        validators=[validate_password],
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                "placeholder": "Password",
+            }
+        )
+    )
+
+

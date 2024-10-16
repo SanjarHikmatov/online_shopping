@@ -1,4 +1,3 @@
-
 from django.shortcuts import render
 
 from apps.categories.models import Category

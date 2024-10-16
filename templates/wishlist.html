@@ -20,17 +20,25 @@
                         </tr>
                     </thead>
                     <tbody class="align-middle">
-                    {{ wishlists }}
                     {% for wishlist in wishlists %}
                     	<tr>
-                            <td class="align-middle"><img src="{{ wishlist.product.main_image.url }}" alt="" style="width: 50px;">{{ wishlist.product.title }}</td>
+                        {% if wishlist.product.main_image %}
+                            <td class="align-middle"><img src="{{ wishlist.product.main_image.url }}" alt="" style="width: 50px;"></td>
+                            <td class="align-middle">alt="" style="width: 50px;">{{ wishlist.product.title }}</td>
+
+                        {% else %}
+                            <td class="align-middle"><img src="{% static 'img/istockphoto-884072610-612x612.jpg' %}" alt="" style="width: 50px;">{{ wishlist.product.title }}</td>
+                        {% endif %}    
                             <td class="align-middle">{{ wishlist.product.price }}</td>
                             <td class="align-middle">
-                                <a class="btn btn-sm btn-danger" href="{% url 'wishlists:wishlist-delete' product_id=wishlist.product.id %}" >
+                                <a class="btn btn-sm btn-danger" href="{% url 'wishlists:wishlist-delete' product_id=wishlist.product.id %}">
                                     <i class="fa fa-times"></i>   
+                                
                                 </a>
                             </td>
                         </tr>
+                    {% empty %}
+                        <li>Wishlist bosh</li>
                     {% endfor %}
                     </tbody>
                 </table>

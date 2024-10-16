@@ -177,12 +177,17 @@
 
                                         <a class="btn btn-outline-dark btn-square" href=""><i
                                                 class="fa fa-shopping-cart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href="{% url 'wishlists:wishlist-create' product_id=product.id %}">
-                                            <i class="far fa-heart"></i>
+                                        <a class="btn btn-outline-dark btn-square"
+                                           href="{% url 'wishlists:wishlist-create' product_id=product.id %}">
+                                            {% if product.id in user_wishlist %}
+                                                <i class="fa fa-heart" aria-hidden="true"></i>
+                                            {% else %}
+                                                <i class="far fa-heart"></i>
+                                            {% endif %}
                                         </a>
                                         <a class="btn btn-outline-dark btn-square" href=""><i
                                                 class="fa fa-sync-alt"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                                        <a class="btn btn-outline-dark btn-square" href="{% url 'products:detail-page' pk=product.pk %}"><i class="fa fa-search"></i></a>
                                     </div>
                                 </div>
                                 <div class="text-center py-4">
@@ -195,11 +200,10 @@
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
                                         {% decimal_to_range product.avg_rating as Stars %}
-                                        {{ product.avg_rating }}
                                         {% for rating in Stars %}
                                             <small class="fa fa-star text-primary mr-1"></small>
                                         {% endfor %}
-                                        <small>({{ product.ratings.count }})</small>
+                                        <small>({{ product.avg_rating|floatformat:"0" }})</small>
                                     </div>
                                 </div>
                             </div>
@@ -246,24 +250,6 @@
                             </ul>
                         </nav>
                     </div>
-
-                    {##}
-                    {#                    <div class="col-2">#}
-                    {#                        <div class="pagination ">#}
-                    {#                                <span class="step-links">#}
-                    {#                                    {% if page_obj.has_previous %}<a href="?page=1">&laquo; first</a>#}
-                    {#                                        <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
-                    {#                                    {% endif %}#}
-                    {##}
-                    {#                                    <span class="current">#}
-                    {#                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-                    {#                                    </span>#}
-                    {##}
-                    {#                                    {% if page_obj.has_next %}#}
-                    {#                                        <a href="?page={{ page_obj.next_page_number }}">next</a>#}
-                    {#                                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
-                    {#                                    {% endif %}#}
-                    {#                                </span>#}
                 </div>
             </div>
         </div>

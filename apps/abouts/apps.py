@@ -6,5 +6,5 @@ class AboutsConfig(AppConfig):
     name = 'apps.abouts'
 
 
-def ready(self):
-    pass
+    def ready(self):
+        import apps.general.signals

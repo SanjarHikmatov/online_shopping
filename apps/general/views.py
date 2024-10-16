@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.conf import settings
 from django.utils.translation import activate
 
+from apps.products.models import CurrencyChoices
 
 
 def set_language(request, lang):
@@ -14,12 +15,13 @@ def set_language(request, lang):
     return redirect(redirect_to)
 
 
-def search(request, product_title):
-    search = request.POST.get('search')
-    request.session['search'] = search
-    if search == product_title:
-        context = {
-            'product_title': product_title,
-        }
-        return render(request, 'shop.html', context)
+def set_currency(request, currency):
+    currencies = CurrencyChoices.values
+    if currency in currencies:
+        request.session['currency'] = currency
     return redirect(request.META['HTTP_REFERER'])
+
+def search(request):
+    search_text = request.GET.get('search', '')
+    request.session['search_text'] = search_text
+    return redirect('products:product_list')

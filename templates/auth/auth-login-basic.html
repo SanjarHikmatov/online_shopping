@@ -79,8 +79,9 @@
                             {{ message }}
                         </p>
                     {% endfor %}
-                    <form id="formAuthentication" class="mb-5" action="{% url 'user-login' %}" method="POST">
+                    <form id="formAuthentication" class="mb-5" action="{% url 'authentications:user-login' %}" method="POST">
                         {% csrf_token %}
+                        
                         <div class="form-floating form-floating-outline mb-5">
                             <input
                                     type="text"
@@ -124,10 +125,9 @@
                             <button class="btn btn-primary d-grid w-100" type="submit">login</button>
                         </div>
                     </form>
-
                     <p class="text-center mb-5">
                         <span>{% translate 'New on our platform ?' %}</span>
-                        <a href="{% url 'register-page' %}">
+                        <a href="{% url 'authentications:register-page' %}">
                             <span>{% translate 'Create an account' %}</span>
                         </a>
                     </p>

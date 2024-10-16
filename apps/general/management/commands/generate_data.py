@@ -1,4 +1,5 @@
 import os
+from itertools import product
 
 from random import randint, choice
 from faker import Faker
@@ -36,25 +37,30 @@ def generate_products():
     image_dir = os.path.join(settings.MEDIA_ROOT, django_filename)
 
 
-    # for cat_id in range(10):
-    category_name = category = Category.objects.create(
-      name=fake.first_name(),
-    )
-    for i in range(100):
+    for cat_id in range(10):
+        category = Category.objects.create(
+          name=fake.first_name(),
+        )
         image_name = random_image_download(image_dir)
-        print('hello')
 
-        Product.objects.create(
-                title=fake.text(255),
-                price=randint(1, 100),
-                old_price=randint(1, 100),
-                currency=choice(CurrencyChoices.choices),
-                short_description=fake.text(500),
-                long_description=fake.text(500),
-                category=category_name,
-                main_image=os.path.join(django_filename, image_name)
-            )
+        products = []
 
+        for i in range(100):
+                product = Product(
+                    title=fake.text(255),
+                    price=randint(5, 500),
+                    old_price=randint(500, 1000),
+                    currency=choice(CurrencyChoices.choices),
+                    short_description=fake.text(500),
+                    long_description=fake.text(500),
+                    category=category.pk,
+                    main_image=os.path.join(django_filename, image_name)
+                )
+                products.append(product)
+        try:
+            Product.objects.bulk_create(products)
+        except ValueError as e:
+            print(f"Xato: {e}")
 
 class Command(BaseCommand):
     def handle(self, *args, **options):

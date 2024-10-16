@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db import models
 from django.contrib.auth.models import User, UserManager, AbstractUser
 from django.contrib.auth.hashers import make_password
@@ -37,6 +39,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
 
     objects = CustomUserManager()
+    wishlist_count = models.IntegerField(default=Decimal('0'))
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

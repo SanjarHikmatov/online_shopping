@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-from urllib3 import request
 
 from apps.products.models import Product
 

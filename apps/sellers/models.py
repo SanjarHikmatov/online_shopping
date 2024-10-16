@@ -7,8 +7,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Seller(models.Model):
     class Gender(models.TextChoices):
-        MALE = '0', ('MALE')
-        FEMALE = '1', ('FEMALE')
+        MALE = '0', 'MALE'
+        FEMALE = '1', 'FEMALE'
 
     rating = models.IntegerField(
         default=0,
