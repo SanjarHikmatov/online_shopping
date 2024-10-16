@@ -1,7 +1,7 @@
 Task by "OnlineShopping"
 1. Clone the Repository
 
-git clone https://github.com/jahongiranorboyev/online_shopping.git
+git clone https://github.com/SanjarHikmatov/online_shopping
 
 2. Change Directory
 
