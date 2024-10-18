@@ -1,7 +1,9 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 
 from apps.products.models import Product
+from apps.wishlists.forms import WishlistForm
 from apps.wishlists.models import Wishlist
 
 
@@ -16,21 +18,19 @@ def wishlist_page(request):
     }
     return render(request=request, template_name="wishlist.html", context=context)
 
+@login_required
+def wishlist_create(request):
+    if request.method == 'POST':
+        form = WishlistForm(request.POST)
+        if form.is_valid():
+            product_id = form.cleaned_data['product_id']
+            product = get_object_or_404(Product, id=product_id)
 
-def wishlist_create(request, product_id):
-    """
-    This view is used to create a new Wishlist
-    """
-    if request.user.is_authenticated:
-        product = Product.objects.get(id=product_id)
-        obj, creat = Wishlist.objects.get_or_create(user_id=request.user.id, product=product)
+            wish, created = Wishlist.objects.get_or_create(user=request.user, product=product)
+            if not created:
+                wish.delete()
 
-        if not creat:
-            obj.delete()
-    # else:
-    #     messages.error(request, "You must be logged in to create a new wishlist.")
-
-    return redirect(request.META['HTTP_REFERER'])
+            return redirect(request.META.get('HTTP_REFERER', 'products:product-list'))
 
 
 def wishlist_delete(request, product_id):
@@ -39,6 +39,7 @@ def wishlist_delete(request, product_id):
     """
 
     if request.user.is_authenticated:
+        print('deleted')
         Wishlist.objects.filter(user_id=request.user.id, product_id=product_id).delete()
     return redirect(request.META['HTTP_REFERER'])
 

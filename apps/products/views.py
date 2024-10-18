@@ -18,7 +18,7 @@ def product_detail(request, pk):
         'comments': comments,
         'product': product,
         'comments_page_obj': Paginator(comments, 2).get_page(comments_page),
-        'page': 'detail',
+
     }
     return render(request, template_name='detail.html', context=context)
 

@@ -2,18 +2,14 @@ from decimal import Decimal
 
 from django.db import models
 from apps.comments.models import ProductComment
+from apps.general.models import General
 from apps.ratings.models import ProductRating
 
 
-class CurrencyChoices(models.TextChoices):
-    USD = 'USD', 'USD'
-    EUR = 'EUR', 'EUR'
-    JPY = 'JPY', 'JPY'
-    UZS = 'UZS', 'UZS'
 
 
 class Product(models.Model):
-    DEFAULT_CURRENCY = CurrencyChoices.UZS
+
 
     title = models.CharField(max_length=255)
     avg_rating = models.DecimalField(
@@ -26,9 +22,9 @@ class Product(models.Model):
         decimal_places=1,
         default=Decimal('0'),
         editable=False)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'), help_text='Enter the price of the UZS')
     old_price = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))
-    currency = models.CharField(choices=CurrencyChoices.choices, default='USD', max_length=5)
+    currency = models.CharField(choices=General.CurrencyChoices.choices, default='UZS', max_length=5)
     short_description = models.CharField(max_length=500)
     long_description = models.TextField(max_length=500)
     category = models.ForeignKey('categories.Category', on_delete=models.SET_NULL, null=True)

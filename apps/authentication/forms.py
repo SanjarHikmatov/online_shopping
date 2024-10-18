@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-from modeltranslation.utils import unique
 
 
 class UserRegisterForm(forms.Form):
@@ -44,11 +43,13 @@ class UserRegisterForm(forms.Form):
         )
     )
 
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        if get_user_model().objects.filter(username=username).exists():
-            raise ValidationError("Username already taken")
-        return username
+    photo = forms.ImageField(required=False)
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if get_user_model().objects.filter(email=email).exists():
+            raise ValidationError("email already taken")
+        return email
 
     def clean(self):
         data = super().clean()

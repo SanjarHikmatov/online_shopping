@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     # ==================Apps================
     'apps.general',
     'apps.categories',
-    'apps.authentication',
+    # 'apps.authentication',
     'apps.abouts',
     'apps.sellers',
     'apps.users',

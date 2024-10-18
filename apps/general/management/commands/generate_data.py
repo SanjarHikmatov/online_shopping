@@ -1,5 +1,4 @@
 import os
-from itertools import product
 
 from random import randint, choice
 from faker import Faker
@@ -11,7 +10,7 @@ from django.core.management.base import BaseCommand
 from apps.abouts.models import About
 from apps.categories.models import Category
 from apps.products.models import Product
-from apps.products.models import CurrencyChoices
+from apps.general.models import General
 from apps.general.service import random_image_url, random_image_download
 
 fake = Faker()
@@ -50,10 +49,10 @@ def generate_products():
                     title=fake.text(255),
                     price=randint(5, 500),
                     old_price=randint(500, 1000),
-                    currency=choice(CurrencyChoices.choices),
+                    currency=choice(General.CurrencyChoices.choices),
                     short_description=fake.text(500),
                     long_description=fake.text(500),
-                    category=category.pk,
+                    category=category,
                     main_image=os.path.join(django_filename, image_name)
                 )
                 products.append(product)

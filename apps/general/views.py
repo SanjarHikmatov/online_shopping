@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.conf import settings
 from django.utils.translation import activate
 
-from apps.products.models import CurrencyChoices
+from apps.general.models import General
 
 
 def set_language(request, lang):
@@ -16,7 +16,7 @@ def set_language(request, lang):
 
 
 def set_currency(request, currency):
-    currencies = CurrencyChoices.values
+    currencies = General.CurrencyChoices.values
     if currency in currencies:
         request.session['currency'] = currency
     return redirect(request.META['HTTP_REFERER'])

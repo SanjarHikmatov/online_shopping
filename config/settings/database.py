@@ -9,3 +9,13 @@ DATABASES = {
         'NAME': settings.BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+CASHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": [
+            "redis://:redis_verystrongpassword@localhost/0",
+        ],
+    }
+}

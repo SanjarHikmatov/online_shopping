@@ -148,7 +148,8 @@
                         <a class="nav-item nav-link text-dark active" data-toggle="tab"
                            href="#tab-pane-1">Description</a>
                         <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Information</a>
-                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews ({{ comments_page_obj.paginator.count }})</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Reviews
+                            ({{ comments_page_obj.paginator.count }})</a>
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab-pane-1">
@@ -215,7 +216,8 @@
                         <div class="tab-pane fade" id="tab-pane-3">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h4 class="mb-4">{{ comments_page_obj.paginator.count }} review for "{{ product.title }}"</h4>
+                                    <h4 class="mb-4">{{ comments_page_obj.paginator.count }} review for
+                                        "{{ product.title }}"</h4>
                                     {% for comment in comments_page_obj %}
                                         <div class="media mb-4">
                                             <img src="{{ comment.product.main_image.url }}" alt="Image"
@@ -236,28 +238,59 @@
                                             </div>
                                         </div>
                                     {% endfor %}
-                                    <div class="pagination">
-                                        <span class="step-links">
-                                            {% if comments_page_obj.has_previous %}
-                                                <a href="?comment_page=1">&laquo; first</a>
-                                                <a href="?comment_page={{ comments_page_obj.previous_page_number }}">previous</a>
-                                            {% endif %}
-
-                                            <span class="current">
-                                                {{ comments_page_obj }}
-                                            </span>
-
-                                            {% if page_obj.has_next %}
-                                                <a href="?comment_page={{ comments_page_obj.next_page_number }}">next</a>
-                                                <a href="?comment_page={{ comments_page_obj.paginator.num_pages }}">last &raquo;</a>
-                                            {% endif %}
-                                        </span>
+                                    <div class="col-12">
+                                        <nav>
+                                            <ul class="pagination justify-content-center">
+                                                {% if comments_page_obj.has_previous %}
+                                                    <li class="page-item"><a class="page-link" href="?comment_page=1">First</a>
+                                                    </li>
+                                                    <li class="page-item"><a class="page-link"
+                                                                             href="?comment_page={{ comments_page_obj.previous_page_number }}">Previous</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a>
+                                                    </li>
+                                                {% endif %}
+                                                {% for i in comments_page_obj.paginator.page_range %}
+                                                    {% if i == comments_page_obj.number %}
+                                                        <li class="page-item active"><a class="page-link"
+                                                                                        href="#">{{ i }}</a></li>
+                                                    {% elif i >= comments_page_obj.number|add:"-1" and i <= comments_page_obj.number|add:"1" %}
+                                                        <li class="page-item"><a class="page-link"
+                                                                                 href="?comment_page={{ i }}">{{ i }}</a></li>
+                                                    {% elif i == 1 or i == 2 or i == 3 or i == comments_page_obj.paginator.num_pages|add:"-2" or i == page_obj.paginator.num_pages|add:"-1" or i == page_obj.paginator.num_pages %}
+                                                        <li class="page-item"><a class="page-link"
+                                                                                 href="?comment_page={{ i }}">{{ i }}</a></li>
+                                                    {% elif i == comments_page_obj.number|add:"-3" or i == comments_page_obj.number|add:"3" %}
+                                                        <li class="page-item disabled"><a class="page-link"
+                                                                                          href="#">...</a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if page_obj.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?comment_page={{ comments_page_obj.next_page_number }}">
+                                                            Next
+                                                        </a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?comment_page={{ comments_page_obj.paginator.num_pages }}">
+                                                            Last
+                                                        </a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="page-item disabled"><a class="page-link"
+                                                                                      href="#">Next</a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </nav>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <h4 class="mb-4">Leave a review</h4>
                                     <small>Your email address will not be published. Required fields are marked
-                                        *</small>
+                                        *</small>   
 
                                     <form method="post" action="{% url 'comments:create-comment' %}">
                                         {% csrf_token %}

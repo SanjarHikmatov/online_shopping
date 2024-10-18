@@ -35,14 +35,15 @@ class CustomUserManager(UserManager):
 
 
 class CustomUser(AbstractUser):
-    username = None
+    username = models.CharField(max_length=20)
     email = models.EmailField(unique=True)
+    photo = models.ImageField(upload_to='users/photos/%Y/%m/%d/', null=True, blank=True)
 
     objects = CustomUserManager()
-    wishlist_count = models.IntegerField(default=Decimal('0'))
+    wishlist_count = models.IntegerField(default=0)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     class Meta(AbstractUser.Meta):
         swappable = "AUTH_USER_MODEL"
