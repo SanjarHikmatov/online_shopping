@@ -15,7 +15,7 @@ def product_detail(request, pk):
     comments_page = request.GET.get('comment_page', 1)
 
     context = {
-        'comments': comments,
+        # 'comments': comments,
         'product': product,
         'comments_page_obj': Paginator(comments, 2).get_page(comments_page),
 
@@ -25,6 +25,12 @@ def product_detail(request, pk):
 def product_list(request: WSGIRequest) -> HttpResponse:
 
     user = request.user
+    if user.is_authenticated:
+        user_cart = Wishlist.objects.filter(user_id=user.pk).values_list('product_id', flat=True )
+
+    else:
+        user_cart = []
+
     if user.is_authenticated:
         user_wishlist = Wishlist.objects.filter(user_id=user.pk).values_list('product_id', flat=True )
 
@@ -48,5 +54,6 @@ def product_list(request: WSGIRequest) -> HttpResponse:
     context = {
         'page_obj': page_obj,
         'user_wishlist': user_wishlist,
+        'user_cart': user_cart,
     }
     return render(request=request, template_name='shop.html', context=context)

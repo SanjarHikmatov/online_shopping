@@ -13,4 +13,5 @@ response = requests.get(
 currency_list = ['USD', 'RUB']
 
 for curr in currency_list:
-    print(requests.get(url=GET_CURRENCY_URL.format(currency=curr,date=today)).json())
+    res = requests.get(url=GET_CURRENCY_URL.format(currency=curr,date=today)).json()
+    print(res['Rate'])

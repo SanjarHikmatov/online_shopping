@@ -1,7 +1,6 @@
-from datetime import timezone
 
 import requests
-from django.core.cache import cache
+# from django.core.cache import cache
 from django.db import models
 from django.utils.timezone import now
 
@@ -50,7 +49,7 @@ class GeneralSocialMedia(models.Model):
 
 
 class CurrencyAmount(models.Model):
-    GET_CURRENCY_URL = "https://cbu.uz/oz/arkhiv-kursov-valyut/json/{currency}/{date}/"
+    GET_CURRENCY_URL = 'https://cbu.uz/oz/arkhiv-kursov-valyut/json/{currency}/{date}/'
 
     currency = models.CharField(max_length=10, choices=General.CurrencyChoices.choices)
     usd_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -60,23 +59,15 @@ class CurrencyAmount(models.Model):
     @classmethod
     def get_currency(cls, currency: str):
         today = now().today()
-        amount_in_uzs = cache.get(currency)
-        if not amount_in_uzs:
+        obj, create = cls.objects.get_or_create(
+            currency=currency,
+            date=today,
+            defaults ={
+                'usd_amount': requests.get(url=CurrencyAmount.GET_CURRENCY_URL.format(currency=currency, date=today)).json()[0]['Rate'],
+            }
+        )
 
-            obj, create = cls.objects.get_or_create(
-                currency=currency,
-                date=today,
-                )
-            if create:
-                obj.usd_amount = requests.get(url=cls.GET_CURRENCY_URL.format(
-                        currency=currency,
-                        date=today
-                    )).json()[0]["Rate"],
-                obj.save()
-            cache.set(currency, obj.usd_amount)
-            amount_in_uzs = cache.get(currency)
-
-        return amount_in_uzs
+        return obj.usd_amount
 
     class Meta:
         unique_together = (('currency', 'date'),)

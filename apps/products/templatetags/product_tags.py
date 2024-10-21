@@ -25,7 +25,8 @@ def product_in_wishlist(user_id: int, product_id: int) -> bool:
 
 @register.simple_tag
 def get_price_by_currency(to_currency: str, price: Decimal) -> Decimal:
-    return round(CurrencyAmount.get_currency(currency=to_currency) / price, 2)
+    print(to_currency, price)
+    return price / CurrencyAmount.get_currency(currency=to_currency)
 
 
 

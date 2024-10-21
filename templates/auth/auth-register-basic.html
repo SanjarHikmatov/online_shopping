@@ -78,8 +78,11 @@
 
               <form id="formAuthentication" class="mb-5" action="{% url 'authentications:user-register' %}" method="POST">
                   {% csrf_token %}
+                   {% for i in messages %}
+                    {{ i }}
+                   {% endfor %}
                 <div class="form-floating form-floating-outline mb-5">
-                  {{ forms.username }}
+                  {{ forms.first_name }}
                   <label for="username">{% translate 'Username' %}</label>
                 </div>
                 <div class="form-floating form-floating-outline mb-5">

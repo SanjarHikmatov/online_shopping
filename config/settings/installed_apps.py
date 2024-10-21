@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     # ==================Apps================
     'apps.general',
     'apps.categories',
-    # 'apps.authentication',
+    'apps.authentication',
     'apps.abouts',
     'apps.sellers',
     'apps.users',
@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'apps.orders',
     'apps.features',
     'apps.wishlists',
+    'apps.carts',
+
     # =============modeltranslation=========
     # 'modeltranslation',
 

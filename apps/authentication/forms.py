@@ -5,7 +5,7 @@ from django.contrib.auth.password_validation import validate_password
 
 
 class UserRegisterForm(forms.Form):
-    username = forms.CharField(
+    first_name = forms.CharField(
         max_length=20,
         min_length=4,
         widget=forms.TextInput(

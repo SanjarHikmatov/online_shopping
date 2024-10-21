@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 
 class CustomUserManager(UserManager):
 
-    def _create_user(self, email, password, **extra_fields):
+    def _create_user(self, email, password, first_name, **extra_fields):
         """
         Create and save a user with the given username, email, and password.
         """
@@ -31,19 +31,19 @@ class CustomUserManager(UserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
 
-        return self._create_user(email, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class CustomUser(AbstractUser):
-    username = models.CharField(max_length=20)
+    username = None
     email = models.EmailField(unique=True)
     photo = models.ImageField(upload_to='users/photos/%Y/%m/%d/', null=True, blank=True)
 
     objects = CustomUserManager()
-    wishlist_count = models.IntegerField(default=0)
+
+    user_wishlist_count = models.PositiveSmallIntegerField(default=0)
+    user_cart_count = models.PositiveSmallIntegerField(default=0)
+    user_comments_count = models.PositiveSmallIntegerField(default=0)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-
-    class Meta(AbstractUser.Meta):
-        swappable = "AUTH_USER_MODEL"
+    REQUIRED_FIELDS = ['first_name', 'last_name']

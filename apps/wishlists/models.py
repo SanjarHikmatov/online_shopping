@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.db import models
 
-from apps.products.models import Product
 
 
 class Wishlist(models.Model):
@@ -9,4 +8,4 @@ class Wishlist(models.Model):
         unique_together = (('user', 'product'),)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(to='products.Product', on_delete=models.CASCADE)

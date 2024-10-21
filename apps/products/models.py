@@ -22,12 +22,23 @@ class Product(models.Model):
         decimal_places=1,
         default=Decimal('0'),
         editable=False)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'), help_text='Enter the price of the UZS')
-    old_price = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))
-    currency = models.CharField(choices=General.CurrencyChoices.choices, default='UZS', max_length=5)
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        help_text='Enter the price of the UZS')
+    old_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2)
+    currency = models.CharField(
+        choices=General.CurrencyChoices.choices,
+        default='UZS',
+        max_length=5)
     short_description = models.CharField(max_length=500)
     long_description = models.TextField(max_length=500)
-    category = models.ForeignKey('categories.Category', on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(
+        'categories.Category',
+        on_delete=models.SET_NULL,
+        null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     added_at = models.DateTimeField(auto_now_add=True)
     main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/', blank=True)

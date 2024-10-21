@@ -10,6 +10,7 @@ from apps.wishlists.models import Wishlist
 def wishlist_page(request):
     if request.user.is_authenticated:
         wishlists_user = Wishlist.objects.filter(user=request.user).select_related('product')
+
     else:
         wishlists_user = None
     context = {
@@ -27,6 +28,7 @@ def wishlist_create(request):
             product = get_object_or_404(Product, id=product_id)
 
             wish, created = Wishlist.objects.get_or_create(user=request.user, product=product)
+
             if not created:
                 wish.delete()
 
@@ -39,7 +41,6 @@ def wishlist_delete(request, product_id):
     """
 
     if request.user.is_authenticated:
-        print('deleted')
         Wishlist.objects.filter(user_id=request.user.id, product_id=product_id).delete()
     return redirect(request.META['HTTP_REFERER'])
 
