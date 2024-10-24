@@ -1,5 +1,6 @@
 import os
 import requests
+from django.utils.timezone import now
 
 RANDOM_CAT_IMAGE_URL = 'https://api.thecatapi.com/v1/images/search'
 def random_image_url():
@@ -16,3 +17,11 @@ def random_image_download(dir_address: str):
         image.write(requests.get(image_url).content)
 
     return image_name
+
+
+
+
+
+def user_photo_location(user, file):
+    today = now()
+    return f'users/{user.get_full_name()}/photos/{today.year}/{today.month}/{today.day}/{file}'

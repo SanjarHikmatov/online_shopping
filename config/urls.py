@@ -20,7 +20,7 @@ from django.urls import path, include
 
 from apps.main.views import home, contact, checkout
 
-from apps.categories.views import category
+from apps.categories.views import category, set_category
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -44,7 +44,9 @@ urlpatterns += i18n_patterns(
     path('contact/', contact, name='contact-page'),
     path('checkout/', checkout, name='checkout-page'),
     path('products/', include('apps.products.urls', namespace='products')),
+    #============== category ============
     path('category/', category, name='category-page'),
+    path('set_category/<int:cat_id>/', set_category, name='set-category'),
     path('cart/', include('apps.carts.urls', namespace='carts')),
 
     path('authentications/', include('apps.authentication.urls', namespace='authentications')),

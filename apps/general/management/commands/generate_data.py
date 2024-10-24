@@ -1,6 +1,5 @@
 import os
-
-from random import randint, choice
+import random
 
 from django.db import transaction
 from faker import Faker
@@ -39,31 +38,37 @@ class Command(BaseCommand):
         django_filename = f'products/images/{today.year}/{today.month}/{today.day}'
         image_dir = os.path.join(settings.MEDIA_ROOT, django_filename)
 
-
-        for cat_id in range(10):
+        counts = 100
+        for cat_name in range(10):
+            print(counts)
             category = Category.objects.create(
-              name=fake.first_name(),
+              name=fake.first_name()
             )
+            if cat_name % 2:
+                for i in range(3):
+                    Category.objects.create(name=fake.first_name(), parent_id=category.pk)
+            #============== create child ==============
             image_name = random_image_download(image_dir)
 
             products = []
 
             for i in range(100):
-                    product = Product(
+                counts += 1
+                products.append(
+                    Product(
                         title=fake.text(255),
-                        price=randint(5, 500),
-                        old_price=randint(500, 1000),
-                        currency=choice(General.CurrencyChoices.choices),
+                        price=random.randint(5, 500),
+                        old_price=random.randint(500, 1000),
+                        currency=random.choice(General.CurrencyChoices.choices)[0],
                         short_description=fake.text(500),
                         long_description=fake.text(500),
-                        category=category,
-                        main_image=os.path.join(django_filename, image_name)
+                        category_id=category.pk,
+                        main_image=os.path.join(django_filename, image_name),
                     )
-                    products.append(product)
-            try:
-                Product.objects.bulk_create(products)
-            except ValueError as e:
-                print(f"Xato: {e}")
+                )
+
+            Product.objects.bulk_create(products)
+
     @transaction.atomic
     def handle(self, *args, **options):
         #====== generate about model ======

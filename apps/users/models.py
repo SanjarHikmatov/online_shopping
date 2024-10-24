@@ -1,8 +1,8 @@
-from decimal import Decimal
-
 from django.db import models
 from django.contrib.auth.models import User, UserManager, AbstractUser
 from django.contrib.auth.hashers import make_password
+
+from apps.general.service import user_photo_location
 
 
 class CustomUserManager(UserManager):
@@ -18,26 +18,21 @@ class CustomUserManager(UserManager):
         return user
 
     def create_user(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault("is_staff", False)
-        extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email=None, password=None, **extra_fields):
-        extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
-
-        if extra_fields.get("is_staff") is not True:
-            raise ValueError("Superuser must have is_staff=True.")
-        if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
-
+        extra_fields["is_staff"] = extra_fields["is_superuser"] = True
         return self._create_user(email, password, **extra_fields)
 
 
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
-    photo = models.ImageField(upload_to='users/photos/%Y/%m/%d/', null=True, blank=True)
+    photo = models.ImageField(
+        upload_to=user_photo_location,
+        null=True,
+        blank=True
+    )
 
     objects = CustomUserManager()
 

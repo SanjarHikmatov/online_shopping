@@ -14,7 +14,7 @@ class Category(models.Model):
 
     def clean(self):
         try:
-            if not self.pk and self.parent.parent.parent:
+            if not self.pk and self.parent.parent:
                 raise ValidationError('you can creat only three category')
         except AttributeError:
             pass

@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.db import models
 from apps.comments.models import ProductComment
 from apps.general.models import General
+from apps.product_features.models import ProductFeature
 from apps.ratings.models import ProductRating
 
 
@@ -41,15 +42,36 @@ class Product(models.Model):
         null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     added_at = models.DateTimeField(auto_now_add=True)
+
     main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/', blank=True)
 
+    def get_features(self):
+        product_feature = ProductFeature.objects.prefetch_related('feature_value').filter(product_id=self.pk)
+        features = {
+        }
+        for product_feature in product_feature:
+            for value in product_feature.feature_value.all():
+                if value.feature_id not in features:
+                    features[value.feature_id] = {
+                        'id': value.feature_id,
+                        'name': value.feature_name,
+                        'value': [
+                            {'id': value.pk, 'name': value.name},
+                        ]
+                    }
+                else:
+                    features[value.feature_id]['value'].append(
+                        {'id': value.pk, 'name': value.name}
+                    )
+        return list(features.values())
+
     def set_avg_rating(self):
-        aggregate_amounts = ProductRating.objects.filter(
-            product_id=self.pk).aggregate(
-            avg=models.Avg('rating', default=1),
-        )
-        self.avg_rating = round(aggregate_amounts['avg'], 1)
-        self.save()
+            aggregate_amounts = ProductRating.objects.filter(
+                product_id=self.pk).aggregate(
+                avg=models.Avg('rating', default=1),
+            )
+            self.avg_rating = round(aggregate_amounts['avg'], 1)
+            self.save()
 
     def set_comments_count(self):
         self.comment_count = ProductComment.objects.filter(product_id=self.pk).count()
@@ -66,4 +88,7 @@ class ProductImage(models.Model):
     ordering_number = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
+
         return self.image
+
+

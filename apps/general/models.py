@@ -1,6 +1,5 @@
-
 import requests
-# from django.core.cache import cache
+from django.core.cache import cache
 from django.db import models
 from django.utils.timezone import now
 
@@ -12,8 +11,7 @@ class General(models.Model):
 
     class CurrencyChoices(models.TextChoices):
         USD = 'USD', 'USD'
-        EUR = 'EUR', 'EUR'
-        JPY = 'JPY', 'JPY'
+        RUS = 'RUS', 'RUS'
         UZS = 'UZS', 'UZS'
 
     DEFAULT_CURRENCY = CurrencyChoices.UZS
@@ -58,16 +56,23 @@ class CurrencyAmount(models.Model):
 
     @classmethod
     def get_currency(cls, currency: str):
-        today = now().today()
-        obj, create = cls.objects.get_or_create(
-            currency=currency,
-            date=today,
-            defaults ={
-                'usd_amount': requests.get(url=CurrencyAmount.GET_CURRENCY_URL.format(currency=currency, date=today)).json()[0]['Rate'],
-            }
-        )
+        today = now().date()
 
-        return obj.usd_amount
+        amount_in_uzs = cache.get(f'{currency}-{today}')
 
+        if not amount_in_uzs:
+            obj, create = cls.objects.get_or_create(
+                currency=currency,
+                date=today,
+                defaults ={
+                    'usd_amount': requests.get(cls.GET_CURRENCY_URL.format(
+                        currency=currency,
+                        date=today)
+                    ).json()[0]['Rate'],
+                }
+            )
+            cache.set(f'{currency}-{today}', obj.usd_amount, 24 * 60 * 60)
+            amount_in_uzs = obj.usd_amount
+        return amount_in_uzs
     class Meta:
         unique_together = (('currency', 'date'),)

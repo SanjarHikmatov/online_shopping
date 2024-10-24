@@ -98,7 +98,7 @@
                                 {% endif %}
                             {% endfor %}
                         </div>
-{#                    </div>#}
+                    </div>
                     </div>
                 </div>
                 <div class="d-inline-flex align-items-center d-block d-lg-none">
@@ -158,36 +158,27 @@
                 <div class="navbar-nav w-100">
                     {% for category in categories %}
                         {% if category.children.exists %}
-                            <div class="nav-item dropdown dropright">
-                                <a href="#" class="nav-link dropdown-toggle"
-                                   data-toggle="dropdown">{{ category.name }}<i
-                                        class="fa fa-angle-right float-right mt-1"></i>
-                                </a>
-                                <div class="navbar-nav w-100">
-                                    <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
+                            <div class="nav-item dropdown dropright ">
+                                <a href="{% url 'set-category' cat_id=category.pk %}"
+                                   class="nav-link dropdown-toggle {% if request.session.cat_id == category.pk %} active {% endif %} "
+                                   data-toggle="dropdown">{{ category.name }} <i
+                                        class="fa fa-angle-right float-right mt-1 "></i></a>
+                                <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
+                                    {% for child in category.children.all %}
+                                        <a href="{% url 'set-category' cat_id=child.pk %}"
+                                           class="dropdown-item {% if request.session.cat_id == child.pk %} active {% endif %}">
+                                            {{ child.name }}
+                                        </a>
+                                    {% endfor %}
 
-                                        {% for child1 in category.children.all %}
-                                            {% if child1.children.exists %}
-                                                <div class="nav-item dropdown dropright">
-                                                    <a href="#" class="nav-link dropdown"
-                                                       data-toggle="dropdown"><strong>{{ child1.name }}</strong>
-                                                        <i class="fa fa-angle-right float-right mt-1"></i></a>
-                                                </div>
-                                            {% endif %}
-                                            <p><a href="#" class="nav-link dropdown"
-                                                  data-toggle="dropdown"><strong>{{ child1.name }}</strong>
-                                                <i class="fa fa-angle-right float-right mt-1"></i></a></p>
-                                        {% endfor %}
-                                    </div>
                                 </div>
                             </div>
+                        {% else %}
+                            <a href="{% url 'set-category' cat_id=category.pk %}"
+                               class="nav-item nav-link {% if request.session.cat_id == category.pk %} active {% endif %}">{{ category.name }}</a>
                         {% endif %}
-                        <p><a href="#" class="nav-link dropdown-toggle"
-                              data-toggle="dropdown">{{ category.name }}<i
-                                class="fa fa-angle-right float-right mt-1"></i>
-                        </a>
-                        </p>
                     {% endfor %}
+                </div>
             </nav>
         </div>
         <div class="col-lg-9">
@@ -212,19 +203,17 @@
                            class="nav-item nav-link {% if page == 'about' %} active {% endif %} ">{% translate 'About us' %}</a>
 
                     </div>
+
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                        <a href="{% url 'wishlists:wishlist-page' %}" class="btn px-0">
+                        <a class="btn px-0" href="{% url 'wishlists:wishlist-page' %}">
                             <i class="fas fa-heart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle"
-                                  style="padding-bottom: 2px;">{{ request.user.wishlist_count }}</span>
-
+                                  style="padding-bottom: 2px;">{{ request.user.user_wishlist_count }}</span>
                         </a>
-
                         <a href="{% url 'carts:cart-page' %}" class="btn px-0 ml-3">
-
-                            <i class="fas fa-shopping-cart text-primary {% if page == 'wishlist' %} active {% endif %}"></i>
+                            <i class="fas fa-shopping-cart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle"
-                                  style="padding-bottom: 2px;">0</span>
+                                  style="padding-bottom: 2px;">{{ request.user.user_cart_count }}</span>
                         </a>
                     </div>
                 </div>

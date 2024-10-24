@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django import template
 
-from apps.general.models import CurrencyAmount
+from apps.general.models import CurrencyAmount, General
 from apps.wishlists.models import Wishlist
 
 register = template.Library()
@@ -25,8 +25,9 @@ def product_in_wishlist(user_id: int, product_id: int) -> bool:
 
 @register.simple_tag
 def get_price_by_currency(to_currency: str, price: Decimal) -> Decimal:
-    print(to_currency, price)
-    return price / CurrencyAmount.get_currency(currency=to_currency)
+    if to_currency == General.CurrencyChoices.UZS:
+        return price
+    return round(price / CurrencyAmount.get_currency(currency=to_currency),2)
 
 
 
