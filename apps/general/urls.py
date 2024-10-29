@@ -6,5 +6,6 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('set-language/<str:lang>/', views.set_language, name='set-lang'),
     path('set-currency/<str:currency>/', views.set_currency, name='set-curr'),
+    path('clear-session/', views.flush_session, name='clear-session'),
 
 ]

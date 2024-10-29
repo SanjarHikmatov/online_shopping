@@ -17,23 +17,32 @@ class Product(models.Model):
         max_digits=10,
         decimal_places=1,
         default=Decimal('0'),
-        editable=False)
+        editable=False
+    )
     comment_count = models.DecimalField(
         max_digits=10,
         decimal_places=1,
         default=Decimal('0'),
-        editable=False)
+        editable=False
+    )
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        help_text='Enter the price of the UZS')
+        help_text='Enter the price of the UZS',
+        editable=False
+    )
     old_price = models.DecimalField(
         max_digits=10,
-        decimal_places=2)
+        decimal_places=2,
+        editable=False,
+        help_text='Enter the old price of the UZS'
+
+    )
     currency = models.CharField(
         choices=General.CurrencyChoices.choices,
         default='UZS',
-        max_length=5)
+        max_length=5
+    )
     short_description = models.CharField(max_length=500)
     long_description = models.TextField(max_length=500)
     category = models.ForeignKey(
@@ -46,21 +55,20 @@ class Product(models.Model):
     main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/', blank=True)
 
     def get_features(self):
-        product_feature = ProductFeature.objects.prefetch_related('feature_value').filter(product_id=self.pk)
-        features = {
-        }
-        for product_feature in product_feature:
+        product_features = ProductFeature.objects.prefetch_related('feature_value').filter(product_id=self.pk)
+        features = {}
+        for product_feature in product_features:
             for value in product_feature.feature_value.all():
                 if value.feature_id not in features:
                     features[value.feature_id] = {
                         'id': value.feature_id,
-                        'name': value.feature_name,
+                        'name': value.feature.name,
                         'value': [
-                            {'id': value.pk, 'name': value.name},
+                            {'id': value.pk, 'name': value.name}
                         ]
                     }
                 else:
-                    features[value.feature_id]['value'].append(
+                    features[value.feature_id]['values'].append(
                         {'id': value.pk, 'name': value.name}
                     )
         return list(features.values())
@@ -83,7 +91,7 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
+    product = models.ForeignKey('products.Product', on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='products/images/%Y/%m/%d/')
     ordering_number = models.PositiveSmallIntegerField(default=0)
 

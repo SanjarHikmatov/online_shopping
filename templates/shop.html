@@ -135,12 +135,29 @@
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <div class="d-flex">
-                                <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
-                                <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
+                                <a href="{% url 'general:clear-session' %}">
+                                    <button class="btn btn-sm btn-light">page
+                                        >>> {{ page_obj.paginator.count }}</button>
+                                </a>
                             </div>
-                        
+
+                            <div class="ml-2 d-flex">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
+                                            data-toggle="dropdown">Sorting
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {% for product in page_obj %}
+                                            <a class="dropdown-item" href="{% url 'products:avg-sort-rating' product_id=product.id %}">Best rating</a>
+                                        {% endfor %}
+                                    </form>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-12">
-                        <h6>page >>> {{ page_obj.paginator.count }}</h6>
+
                                 <nav>
                                     <ul class="pagination align-items-center justify-content-center">
                                         {% if page_obj.has_previous %}
@@ -186,30 +203,7 @@
                                     </ul>
                                 </nav>
                             </div>
-                            <div class="ml-2 d-flex">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
-                                            data-toggle="dropdown">Sorting
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Latest</a>
-                                        <a class="dropdown-item" href="#">Popularity</a>
-                                        <a class="dropdown-item" href="#">Best Rating</a>
-                                    </div>
-                                </div>
 
-
-                                <div class="btn-group ml-2">
-                                    <button type="button" class="btn btn-sm btn-light dropdown-toggle"
-                                            data-toggle="dropdown">Showing
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">10</a>
-                                        <a class="dropdown-item" href="#">20</a>
-                                        <a class="dropdown-item" href="#">30</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     {% for product in page_obj %}
@@ -268,10 +262,10 @@
                                         </h6>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
-                                        {% for i in product.avg_rating|floatformat:"0" %}
+                                        {% for i in i|rjust:product.avg_rating %}
                                             <small class="fa fa-star text-primary mr-1"></small>
                                         {% endfor %}
-                                        <small>({{ product.avg_rating|floatformat:"0" }})</small>
+                                        <small>({{ i|rjust:product.avg_rating }})</small>
                                     </div>
                                 </div>
                             </div>

@@ -7,9 +7,6 @@ def home(request):
 
 
 
-def contact(request):
-    return render(request, template_name='contact.html', context={'page': 'contact'})
-
 
 def checkout(request):
     return render(request, template_name='checkout.html', context={'page': 'pages'})

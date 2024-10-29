@@ -11,6 +11,7 @@ class ProductImageInline(admin.TabularInline):
 class ProductAdmin(TranslationAdmin):
     model = Product
     list_display = ('title', 'price', 'avg_rating', 'category',)
+    readonly_fields = ('old_price', 'price',)
     inlines = [ProductImageInline]
 
 @admin.register(ProductImage)

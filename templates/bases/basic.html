@@ -197,7 +197,7 @@
                         <a href="{% url 'products:product_list' %}"
                            class="nav-item nav-link {% if page == 'shop' %} active {% endif %}">{% translate 'Shop' %}</a>
 
-                        <a href="{% url 'contact-page' %}"
+                        <a href="{% url 'contacts:contact-us' %}"
                            class="nav-item nav-link {% if page == 'contact' %} active {% endif %}">{% translate 'Contact' %}</a>
                         <a href="{% url 'about:about-page' %}"
                            class="nav-item nav-link {% if page == 'about' %} active {% endif %} ">{% translate 'About us' %}</a>
@@ -256,7 +256,7 @@
                                 class="fa fa-angle-right mr-2"></i>{% translate 'Shopping Cart' %}</a>
                         <a class="text-secondary mb-2" href="{% url 'checkout-page' %}"><i
                                 class="fa fa-angle-right mr-2"></i>{% translate 'Checkout' %}</a>
-                        <a class="text-secondary" href="{% url 'contact-page' %}"><i
+                        <a class="text-secondary" href="{% url 'contacts:contact-us' %}"><i
                                 class="fa fa-angle-right mr-2"></i>{% translate 'Contact' %}
                             Us</a>
                     </div>

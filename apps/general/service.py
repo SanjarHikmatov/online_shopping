@@ -25,3 +25,22 @@ def random_image_download(dir_address: str):
 def user_photo_location(user, file):
     today = now()
     return f'users/{user.get_full_name()}/photos/{today.year}/{today.month}/{today.day}/{file}'
+
+#
+# from django.contrib.sessions.backends.db import SessionStore
+#
+#
+# class MySession(SessionStore):
+#     def flush(self):
+#         """
+#         O'zgaritirilgan flush metodi.
+#         Joriy sessiya ma'lumotlarini o'chirib tashlaydi va yangi kalitni yaratadi.
+#         """
+#         self.clear()
+#
+#         self.delete()
+#
+#         self._session_key = self.create()  # Yangi sessiya kalitini yaratadi
+#
+#         # Qo'shimcha amallar yoki logika qo'shishingiz mumkin
+#         print("Sessiya ma'lumotlari o'chirildi va yangi kalit yaratildi:", self._session_key)

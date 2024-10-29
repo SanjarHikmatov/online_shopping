@@ -6,5 +6,6 @@ from apps.wishlists.models import Wishlist
 
 @receiver((post_save, post_delete), sender=Wishlist)
 def wishlist_post_save(instance, **kwargs):
-    instance.user.wishlists_count=Wishlist.objects.filter(user_id=instance.user_id).count()
+    instance.user.user_wishlists_count = Wishlist.objects.filter(user_id=instance.user_id).count()
     instance.user.save()
+

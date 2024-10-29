@@ -46,7 +46,7 @@ def user_register(request):
             'forms': UserRegisterForm,
         }
         return render(request, 'auth/auth-register-basic.html', context)
-    form_obj = UserRegisterForm(data=request.POST)
+    form_obj = UserRegisterForm(data=request.POST, )
     try:
         if form_obj.is_valid():
 

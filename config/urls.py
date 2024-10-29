@@ -18,7 +18,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.main.views import home, contact, checkout
+from apps.main.views import home, checkout
 
 from apps.categories.views import category, set_category
 from django.conf import settings
@@ -29,28 +29,47 @@ urlpatterns = [
     # ========== set language =========
     path('searchs/', include('apps.general.urls', namespace='searchs')),
 
+    #================ Debug toolbars =============
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 urlpatterns += i18n_patterns(
+
     # ========== about urls ===========
     path('about/', include('apps.abouts.urls', namespace='about')),
+
+    #=========== wishlist =================
     path('wishlists/', include('apps.wishlists.urls', namespace='wishlist')),
+
+    #=========== comment ================
     path('comments/', include('apps.comments.urls', namespace='comments')),
 
+    #=========== admin ===========
     path('admin/', admin.site.urls),
+
+    #============= home ============
     path('', home, name='home-page'),
 
-    path('contact/', contact, name='contact-page'),
+    #=============contact=============
+    path('contact/', include('apps.contact.urls', namespace='contacts')),
+
+   #============ checkout ==============
     path('checkout/', checkout, name='checkout-page'),
+
+   #=========== products ====================
     path('products/', include('apps.products.urls', namespace='products')),
+
     #============== category ============
     path('category/', category, name='category-page'),
     path('set_category/<int:cat_id>/', set_category, name='set-category'),
+
+    #=============== cart ===========================
     path('cart/', include('apps.carts.urls', namespace='carts')),
 
+    #================== authentications ======================
     path('authentications/', include('apps.authentication.urls', namespace='authentications')),
+
+    #====================== Media =========================
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 )
-# if settings.DEBUG:

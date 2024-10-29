@@ -25,3 +25,11 @@ def search(request):
     search_text = request.GET.get('search', '')
     request.session['search_text'] = search_text
     return redirect('products:product_list')
+
+
+def flush_session(request):
+    if 'search_text' in request.session:
+        del request.session['search_text']
+    elif 'cat_id' in request.session:
+        del request.session['cat_id']
+    return redirect('products:product_list')
