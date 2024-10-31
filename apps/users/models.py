@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, UserManager, AbstractUser
+from django.contrib.auth.models import UserManager, AbstractUser
 from django.contrib.auth.hashers import make_password
 
 from apps.general.service import user_photo_location
@@ -36,7 +36,7 @@ class CustomUser(AbstractUser):
 
     objects = CustomUserManager()
 
-    user_wishlist_count = models.PositiveSmallIntegerField(default=0)
+    user_wishlist_count = models.PositiveSmallIntegerField(default=1)
     user_cart_count = models.PositiveSmallIntegerField(default=0)
     user_comments_count = models.PositiveSmallIntegerField(default=0)
 

@@ -32,4 +32,6 @@ def flush_session(request):
         del request.session['search_text']
     elif 'cat_id' in request.session:
         del request.session['cat_id']
+    elif 'best-rating' in request.session:
+        del request.session['best-rating']
     return redirect('products:product_list')

@@ -147,11 +147,9 @@
                                             data-toggle="dropdown">Sorting
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                    <form method="post">
+                                    <form method="post" action="{% url 'products:show-avg-rating' %}">
                                         {% csrf_token %}
-                                        {% for product in page_obj %}
-                                            <a class="dropdown-item" href="{% url 'products:avg-sort-rating' product_id=product.id %}">Best rating</a>
-                                        {% endfor %}
+                                            <button>Best rating</button>
                                     </form>
                                     </div>
                                 </div>
@@ -254,66 +252,30 @@
                                     </div>
                                 </div>
                                 <div class="text-center py-4">
-                                    <span class=" text-truncate w-2" href="#">{{ product.title }}</span>
+                                    <a class="h6 text-decoration-none text-truncate" href="{% url 'products:detail-page' product.id %}">{{ product.title }}</a>
                                     <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>${% get_price_by_currency currency product.price %}</h5>
-                                        <h6 class="text-muted ml-2">
+                                        <a href="{% url 'products:detail-page' product.id %}">
+                                            <h5>{% get_price_by_currency currency product.price %}</h5>
+                                        </a>
+                                        <a href="{% url 'products:detail-page' product.id %}">
+                                            <h6 class="text-muted ml-2">
                                             <del>{% get_price_by_currency currency product.old_price %}</del>
-                                        </h6>
+                                            </h6>
+                                        </a>
+
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
-                                        {% for i in i|rjust:product.avg_rating %}
+                                        {% decimal_to_range product.avg_rating as Star %}
+                                        {% for rating in Star %}
                                             <small class="fa fa-star text-primary mr-1"></small>
                                         {% endfor %}
-                                        <small>({{ i|rjust:product.avg_rating }})</small>
+                                        <h5>({{ product.avg_rating|floatformat:'0' }})</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     {% endfor %}
-
-                    {#                    <div class="col-12">#}
-                    {#                        <nav>#}
-                    {#                            <ul class="pagination justify-content-center">#}
-                    {#                                {% if page_obj.has_previous %}#}
-                    {#                                    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>#}
-                    {#                                    <li class="page-item"><a class="page-link"#}
-                    {#                                                             href="?page={{ page_obj.previous_page_number }}">Previous</a>#}
-                    {#                                    </li>#}
-                    {#                                {% else %}#}
-                    {#                                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>#}
-                    {#                                {% endif %}#}
-                    {#                                {% for i in page_obj.paginator.page_range %}#}
-                    {#                                    {% if i == page_obj.number %}#}
-                    {#                                        <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>#}
-                    {#                                    {% elif i >= page_obj.number|add:"-1" and i <= page_obj.number|add:"1" %}#}
-                    {#                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>#}
-                    {#                                    {% elif i == 1 or i == 2 or i == 3 or i == page_obj.paginator.num_pages|add:"-2" or i == page_obj.paginator.num_pages|add:"-1" or i == page_obj.paginator.num_pages %}#}
-                    {#                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>#}
-                    {#                                    {% elif i == page_obj.number|add:"-3" or i == page_obj.number|add:"3" %}#}
-                    {#                                        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>#}
-                    {#                                    {% endif %}#}
-                    {#                                {% endfor %}#}
-                    {#                                {% if page_obj.has_next %}#}
-                    {#                                    <li class="page-item">#}
-                    {#                                        <a class="page-link"#}
-                    {#                                           href="?page={{ page_obj.next_page_number }}">#}
-                    {#                                            Next#}
-                    {#                                        </a>#}
-                    {#                                    </li>#}
-                    {#                                    <li class="page-item">#}
-                    {#                                        <a class="page-link"#}
-                    {#                                           href="?page={{ page_obj.paginator.num_pages }}">#}
-                    {#                                            Last#}
-                    {#                                        </a>#}
-                    {#                                    </li>#}
-                    {#                                {% else %}#}
-                    {#                                    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>#}
-                    {#                                {% endif %}#}
-                    {#                            </ul>#}
-                    {#                        </nav>#}
-                    {#                    </div>#}
+                  </div>
                 </div>
             </div>
         </div>

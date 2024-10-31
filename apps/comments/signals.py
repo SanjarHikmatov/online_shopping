@@ -5,5 +5,5 @@ from apps.comments.models import ProductComment
 
 @receiver((post_delete, post_save), sender=ProductComment)
 def comment_post_save_or_post_delete(instance, *args, **kwargs):
-    instance.product.comments_count = ProductComment.objects.filter(product_id=instance.product.id).count()
+    instance.product.comment_count = ProductComment.objects.filter(product_id=instance.product.id).count()
     instance.product.save()

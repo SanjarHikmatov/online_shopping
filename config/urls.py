@@ -69,6 +69,9 @@ urlpatterns += i18n_patterns(
     #================== authentications ======================
     path('authentications/', include('apps.authentication.urls', namespace='authentications')),
 
+    #================== coupon ===========================
+    path('coup/', include('apps.coupons.urls', namespace='coupn')),
+
     #====================== Media =========================
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

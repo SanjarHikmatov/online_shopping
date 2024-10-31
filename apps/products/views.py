@@ -1,16 +1,21 @@
+from django.http import HttpResponse
+
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 from apps.carts.models import ProductCard
 from apps.comments.models import ProductComment
+from apps.coupons.models import UsedCoupon
 from apps.products.models import Product
 from apps.wishlists.models import Wishlist
-from django.db.models import Q, Avg
+from django.db.models import Q, Avg, Count
 
-
+@login_required
 def product_detail(request, pk):
+
+
     product = get_object_or_404(Product, pk=pk)
     comments = ProductComment.objects.filter(product_id=product.pk).order_by('-created_at')
     comments_page = request.GET.get('comment_page', 1)
@@ -22,7 +27,6 @@ def product_detail(request, pk):
     context = {
         'user_cart_quantity': user_cart_quantity,
         'comments': comments,
-        'product': product,
         'comments_page_obj': Paginator(comments, 2).get_page(comments_page),
         'product': product
     }
@@ -30,6 +34,8 @@ def product_detail(request, pk):
 
 def product_by_feature(request, pk):
     return redirect('products:detail-page', pk)
+
+
 
 def product_list(request: WSGIRequest) -> HttpResponse:
     user = request.user
@@ -44,21 +50,26 @@ def product_list(request: WSGIRequest) -> HttpResponse:
     search_text = request.session.get('search_text', None)
     cat_id = request.session.get("cat_id", None)
     queryset = Product.objects.order_by('-pk')
-    avg_sort_rating = request.session.get('avg-sort-rating')
+    best_rating = request.session.get('best-rating', None)
+    #
+    # for product in queryset:
+    #     product.set_avg_rating()
+
     if cat_id:
-        print(cat_id,'{{{{{{{{{{{{{{{{{{{{{{{')
         queryset = queryset.filter(
             Q(category_id=cat_id)
             |
             Q(category__parent_id=cat_id)
+
         )
-    if avg_sort_rating:
-        print(avg_sort_rating,"_________________________))))))))")
-        queryset = queryset.filter(
-            category__product__avg_rating=avg_sort_rating
+    if best_rating:
+        queryset = queryset.order_by(
+        '-avg_rating'
         )
+
+
+
     if search_text:
-        print(search_text,"====================")
         queryset = queryset.filter(
             Q(title_uz__icontains=search_text)
             |
@@ -86,10 +97,10 @@ def product_list(request: WSGIRequest) -> HttpResponse:
     return render(request=request, template_name='shop.html', context=context)
 
 
+def product_sort_by_avg_rating(request):
+    if 'best-rating' in request.session:
+        del request.session['best-rating']
+    else:
+        request.session['best-rating'] = 'best-rating'
 
-def product_sort_by_avg_rating(request, product_id):
-    # product = Product.objects.filter(product_id=product_id.avg_rating)
-    avg_sort_rating = request.POST.get(product_id.avg_rating, None)
-    request.session['avg_sort_rating'] = avg_sort_rating
-    print(request.session['avg_sort_rating'],'PPPPPPPPPPPPPPPPPPPPPPPPP')
-    return redirect('products:product_list')
+    return redirect(request.META['HTTP_REFERER'])

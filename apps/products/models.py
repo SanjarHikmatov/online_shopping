@@ -4,7 +4,7 @@ from django.db import models
 from apps.comments.models import ProductComment
 from apps.general.models import General
 from apps.product_features.models import ProductFeature
-from apps.ratings.models import ProductRating
+# from apps.ratings.models import ProductRating
 
 
 
@@ -53,7 +53,7 @@ class Product(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
 
     main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/', blank=True)
-
+    @property
     def get_features(self):
         product_features = ProductFeature.objects.prefetch_related('feature_value').filter(product_id=self.pk)
         features = {}
@@ -74,9 +74,10 @@ class Product(models.Model):
         return list(features.values())
 
     def set_avg_rating(self):
-            aggregate_amounts = ProductRating.objects.filter(
-                product_id=self.pk).aggregate(
-                avg=models.Avg('rating', default=1),
+            aggregate_amounts = ProductComment.objects.filter(
+                product_id=self.pk
+            ).aggregate(
+                avg=models.Avg('rating', default=0),
             )
             self.avg_rating = round(aggregate_amounts['avg'], 1)
             self.save()

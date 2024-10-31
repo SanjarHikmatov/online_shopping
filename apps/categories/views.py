@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
 from apps.categories.models import Category
+from apps.products.templatetags.product_tags import get_price_by_currency
 
 
 def category(request):
@@ -21,7 +22,3 @@ def set_category(request, cat_id):
     else:
         request.session['cat_id'] = None
     return redirect('products:product_list')
-
-
-
-
