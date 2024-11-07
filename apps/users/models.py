@@ -34,11 +34,11 @@ class CustomUser(AbstractUser):
         blank=True
     )
 
+
     objects = CustomUserManager()
 
-    user_wishlist_count = models.PositiveSmallIntegerField(default=1)
+    user_wishlist_count = models.PositiveSmallIntegerField(default=0)
     user_cart_count = models.PositiveSmallIntegerField(default=0)
     user_comments_count = models.PositiveSmallIntegerField(default=0)
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']

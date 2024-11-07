@@ -23,8 +23,8 @@
                      style="background: linear-gradient(rgba(255, 255, 255, .8), rgba(255, 255, 255, .8)), {% static 'about ing/about-img-1.png' %};">
                     <h5 class="section-about-title pe-3">{% translate 'About Us' %}s</h5>
                     {% for about in abouts %}
-                        <h1 class="mb-4"><span class="text-primary"><h2>{{ about.title }}</h2></span></h1>
-                        <h2>{{ about.description }}</h2>
+                        <h1 class="mb-4"><span class="text-primary"><h2>{{ about.title|truncatechars:50 }}</h2></span></h1>
+                        <h2>{{ about.description|truncatechars:50 }}</h2>
                     {% endfor %}
                     <div class="row gy-2 gx-4 mb-4">
                         {#                        {% for foo in social_media %}#}

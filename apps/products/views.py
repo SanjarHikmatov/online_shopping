@@ -7,21 +7,20 @@ from django.contrib.auth.decorators import login_required
 
 from apps.carts.models import ProductCard
 from apps.comments.models import ProductComment
-from apps.coupons.models import UsedCoupon
 from apps.products.models import Product
 from apps.wishlists.models import Wishlist
-from django.db.models import Q, Avg, Count
+from django.db.models import Q
 
 @login_required
 def product_detail(request, pk):
 
 
     product = get_object_or_404(Product, pk=pk)
-    comments = ProductComment.objects.filter(product_id=product.pk).order_by('-created_at')
+    comments = ProductComment.objects.filter(product_id=product.pk).order_by('-created_at').select_related('product')
     comments_page = request.GET.get('comment_page', 1)
 
     try:
-        user_cart_quantity = ProductCard.objects.get(product_id=pk, user=request.user).quantity
+        user_cart_quantity = ProductCard.objects.prefetch_related('').get(product_id=pk, user=request.user).quantity
     except ProductCard.DoesNotExist:
         user_cart_quantity = 1
     context = {
@@ -39,21 +38,18 @@ def product_by_feature(request, pk):
 
 def product_list(request: WSGIRequest) -> HttpResponse:
     user = request.user
-    user_cart = []
+    cart_user = []
     user_wishlist = []
 
     if user.is_authenticated:
 
-        user_cart = ProductCard.objects.filter(user_id=user.pk).values_list('product_id', flat=True)
+        cart_user= ProductCard.objects.filter(user_id=user.pk).values_list('product_id', flat=True)
         user_wishlist = Wishlist.objects.filter(user_id=user.pk).values_list('product_id', flat=True)
 
     search_text = request.session.get('search_text', None)
     cat_id = request.session.get("cat_id", None)
     queryset = Product.objects.order_by('-pk')
     best_rating = request.session.get('best-rating', None)
-    #
-    # for product in queryset:
-    #     product.set_avg_rating()
 
     if cat_id:
         queryset = queryset.filter(
@@ -62,10 +58,15 @@ def product_list(request: WSGIRequest) -> HttpResponse:
             Q(category__parent_id=cat_id)
 
         )
+
+    avg_rating = request.GET.get('avg_rating')
+    if avg_rating:
+        queryset = queryset.filter(avg_rating__gte=avg_rating)
+    print(request, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>....')
     if best_rating:
-        queryset = queryset.order_by(
-        '-avg_rating'
-        )
+           queryset = queryset.order_by(
+            '-avg_rating'
+            )
 
 
 
@@ -91,7 +92,7 @@ def product_list(request: WSGIRequest) -> HttpResponse:
     context = {
         'page_obj': page_obj,
         'user_wishlist': user_wishlist,
-        'user_cart': user_cart,
+        'cart_user': cart_user,
     }
 
     return render(request=request, template_name='shop.html', context=context)

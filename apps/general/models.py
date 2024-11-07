@@ -11,7 +11,7 @@ class General(models.Model):
 
     class CurrencyChoices(models.TextChoices):
         USD = 'USD', 'USD'
-        RUS = 'RUS', 'RUS'
+        RUB = 'RUB', 'RUB'
         UZS = 'UZS', 'UZS'
 
     DEFAULT_CURRENCY = CurrencyChoices.UZS

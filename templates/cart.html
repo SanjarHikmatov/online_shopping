@@ -1,13 +1,13 @@
 {% extends 'bases/basic.html' %}
 {% load static %}
 {% load i18n %}
+<!--{% load coupon_tags %}-->
 {% block content %}
 
     <!-- Breadcrumb Start -->
     {% include 'includes/breadcrumb.html' with page='Shopping cart' %}
     <!-- Breadcrumb End -->
 
-++++++
     <!-- Cart Start -->
     <div class="container-fluid">
         <div class="row px-xl-5">
@@ -89,13 +89,14 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 class="font-weight-medium">{{ request.session.coupon_data.discount_percent }}</h6>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>$160</h5>
+                            <h5>{{  discounted_price }}</h5>
+<!--                            <h5>{% decimal_to_range cart_total_price request.session.coupon_data.discount_percent %}</h5>-->
                         </div>
                         <a href="{% url 'checkout-page' %}">
                             <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">{% translate 'Proceed To Checkout' %}</button>

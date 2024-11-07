@@ -6,3 +6,5 @@ db.sqlite3
 
 !**/migrations/__init__.py
 media
+
+#find apps -path "*/migrations/*" -not -name "__init__.py" -delete

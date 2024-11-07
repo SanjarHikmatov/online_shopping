@@ -147,7 +147,13 @@
                                             data-toggle="dropdown">Sorting
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                    <form method="post" action="{% url 'products:show-avg-rating' %}">
+                                    <li><a href="?avg_rating=1">from 1 to 5 rating</a></li>
+                                    <li><a href="?avg_rating=2">from 2 to 5 rating</a></li>
+                                    <li><a href="?avg_rating=3">from 3 to 5 rating</a></li>
+                                    <li><a href="?avg_rating=4">from 4 to 5 rating</a></li>
+                                    <li><a href="?avg_rating=5">from 5 to 5 rating</a></li>
+
+                                        <form method="post" action="{% url 'products:show-avg-rating' %}">
                                         {% csrf_token %}
                                             <button>Best rating</button>
                                     </form>
@@ -209,7 +215,7 @@
                             <div class="product-item bg-light mb-4">
                                 <div style="height: 400px" class="product-img position-relative overflow-hidden">
                                     {% if product.main_image %}
-                                        <img class="img-fluid w-100" src="{{ product.main_image.url }}" alt="">
+                                        <img src="{{ product.main_image.url }}" alt="" width="300" height="500">
                                     {% else %}
                                         <img class="img-fluid w-100" src="default-image-url" alt="">
                                     {% endif %}
@@ -219,7 +225,7 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="product_id" value="{{ product.id }}">
                                             <button type="submit" class="btn btn-outline-dark btn-square wishlist-btn">
-                                                {% if not product.id in user_cart %}
+                                                {% if not product.id in cart_user %}
                                                     <i class="fa fa-shopping-cart active"></i>
                                                 {% else %}
                                                     <i class="fa fa-shopping-cart"></i>
@@ -252,7 +258,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate" href="{% url 'products:detail-page' product.id %}">{{ product.title }}</a>
+                                    <a class="h6 text-decoration-none text-truncate" href="{% url 'products:detail-page' product.id %}">{{ product.title|truncatechars:20 }}</a>
                                     <div class="d-flex align-items-center justify-content-center mt-2">
                                         <a href="{% url 'products:detail-page' product.id %}">
                                             <h5>{% get_price_by_currency currency product.price %}</h5>

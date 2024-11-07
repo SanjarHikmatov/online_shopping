@@ -1,10 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from apps.carts.models import ProductCard
-from apps.comments.models import ProductComment
 from django.db.models import F, Sum
-from config import settings
-from apps.coupons.models import UsedCoupon
+from apps.coupons.models import UsedCoupon, Coupon
+
 
 def cart_page(request):
     user = request.user
@@ -12,10 +11,27 @@ def cart_page(request):
     if code is not None and UsedCoupon.objects.filter(coupon__code=code, user_id=user.pk).exists():
         del request.session['coupon_data']
     queryset = ProductCard.objects.annotate(total_price=F('quantity') * F('product__price')).filter(user=request.user)
+    cart_total_price = queryset.aggregate(Sum('total_price'))['total_price__sum'],
+
+    coupon_discount_percent = 0
+    if code:
+        try:
+            coupon = Coupon.objects.get(code=code)
+            coupon_discount_percent = coupon.discount_percent
+        except Coupon.DoesNotExist:
+            pass
+
+    discounted_price = cart_total_price * (1 - coupon_discount_percent / 100)
+
     context = {
         'cart_user': queryset.select_related('product'),
-        'cart_total_price': queryset.aggregate(Sum('total_price'))['total_price__sum'],
+        'cart_total_price': cart_total_price,
+        'discounted_price': discounted_price,
     }
+    # context = {
+    #     'cart_user': queryset.select_related('product'),
+    #     'cart_total_price': cart_total_price
+    # }
     return render(request=request, template_name='cart.html', context=context)
 
 
@@ -27,9 +43,9 @@ def create_cart(request, product_id):
     if obj.quantity != quantity:
         obj.quantity = quantity
         obj.save()
-        print(obj.quantity)
-    # if not create:
-    #     obj.delete()
+
+    if not create:
+        obj.delete()
 
     return redirect(request.META['HTTP_REFERER'])
 

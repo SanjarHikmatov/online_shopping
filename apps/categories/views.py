@@ -5,8 +5,7 @@ from apps.products.templatetags.product_tags import get_price_by_currency
 
 
 def category(request):
-
-    categories = Category.objects.all()
+    categories = Category.objects.filter(parent_id__isnull=True).prefetch_related('children')
 
     context = {
         'categories': categories

@@ -26,3 +26,4 @@ def check_coupon(request):
             messages.success(request, 'is valid coupon')
 
     return redirect(request.META['HTTP_REFERER'])
+
