@@ -12,26 +12,22 @@ def cart_page(request):
         del request.session['coupon_data']
     queryset = ProductCard.objects.annotate(total_price=F('quantity') * F('product__price')).filter(user=request.user)
     cart_total_price = queryset.aggregate(Sum('total_price'))['total_price__sum'],
-
-    coupon_discount_percent = 0
-    if code:
-        try:
-            coupon = Coupon.objects.get(code=code)
-            coupon_discount_percent = coupon.discount_percent
-        except Coupon.DoesNotExist:
-            pass
-
-    discounted_price = cart_total_price * (1 - coupon_discount_percent / 100)
+    #
+    # coupon_discount_percent = 0
+    # if code:
+    #     try:
+    #         coupon = Coupon.objects.get(code=code)
+    #         coupon_discount_percent = coupon.discount_percent
+    #     except Coupon.DoesNotExist:
+    #         pass
+    #
+    # discounted_price = cart_total_price * (1 - coupon_discount_percent / 100)
 
     context = {
         'cart_user': queryset.select_related('product'),
         'cart_total_price': cart_total_price,
-        'discounted_price': discounted_price,
+        # 'discounted_price': discounted_price,
     }
-    # context = {
-    #     'cart_user': queryset.select_related('product'),
-    #     'cart_total_price': cart_total_price
-    # }
     return render(request=request, template_name='cart.html', context=context)
 
 
