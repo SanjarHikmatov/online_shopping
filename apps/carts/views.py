@@ -1,32 +1,23 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.dateparse import parse_time
+from pygments.lexer import default
+
 from apps.carts.models import ProductCard
 from django.db.models import F, Sum
 from apps.coupons.models import UsedCoupon, Coupon
 
-
+@login_required
 def cart_page(request):
     user = request.user
     code = request.session.get('coupon_data', {}).get('code')
     if code is not None and UsedCoupon.objects.filter(coupon__code=code, user_id=user.pk).exists():
         del request.session['coupon_data']
     queryset = ProductCard.objects.annotate(total_price=F('quantity') * F('product__price')).filter(user=request.user)
-    cart_total_price = queryset.aggregate(Sum('total_price'))['total_price__sum'],
-    #
-    # coupon_discount_percent = 0
-    # if code:
-    #     try:
-    #         coupon = Coupon.objects.get(code=code)
-    #         coupon_discount_percent = coupon.discount_percent
-    #     except Coupon.DoesNotExist:
-    #         pass
-    #
-    # discounted_price = cart_total_price * (1 - coupon_discount_percent / 100)
-
+    cart_total_price = queryset.aggregate(s=Sum('total_price',default=0))['s']
     context = {
         'cart_user': queryset.select_related('product'),
         'cart_total_price': cart_total_price,
-        # 'discounted_price': discounted_price,
     }
     return render(request=request, template_name='cart.html', context=context)
 
@@ -34,7 +25,9 @@ def cart_page(request):
 @login_required
 def create_cart(request, product_id):
     obj, create = ProductCard.objects.get_or_create(user_id=request.user.id, product_id=product_id)
-    quantity = request.GET.get('cart_quantity', 1)
+    quantity = request.POST.get('cart_quantity', 1)
+
+    print(quantity)
 
     if obj.quantity != quantity:
         obj.quantity = quantity

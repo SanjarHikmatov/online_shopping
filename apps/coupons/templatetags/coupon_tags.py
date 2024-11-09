@@ -1,11 +1,16 @@
-#
-# from django import template
-#
-#
-# register = template.Library()
-#
-# @register.simple_tag
-# def decimal_to_range(cart_total_price_to: int, coupon_percentage: int):
-#     print(type(cart_total_price_to), type(coupon_percentage), '>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
-#     new_total = cart_total_price_to / coupon_percentage
-#     return round(new_total, 2)
+from decimal import Decimal
+
+from django import template
+
+register = template.Library()
+
+
+@register.simple_tag
+def multiply(cart_price, shipping_price):
+    print(type(cart_price), type(shipping_price))
+    return round((cart_price / 100) * shipping_price, 2)
+
+
+@register.simple_tag
+def add(value1,value2):
+    return Decimal(value1) + value2

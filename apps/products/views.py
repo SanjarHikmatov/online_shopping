@@ -13,14 +13,12 @@ from django.db.models import Q
 
 @login_required
 def product_detail(request, pk):
-
-
     product = get_object_or_404(Product, pk=pk)
     comments = ProductComment.objects.filter(product_id=product.pk).order_by('-created_at').select_related('product')
     comments_page = request.GET.get('comment_page', 1)
 
     try:
-        user_cart_quantity = ProductCard.objects.prefetch_related('').get(product_id=pk, user=request.user).quantity
+        user_cart_quantity = ProductCard.objects.get(product_id=pk, user=request.user).quantity
     except ProductCard.DoesNotExist:
         user_cart_quantity = 1
     context = {
@@ -30,6 +28,7 @@ def product_detail(request, pk):
         'product': product
     }
     return render(request, template_name='detail.html', context=context)
+
 
 def product_by_feature(request, pk):
     return redirect('products:detail-page', pk)
@@ -50,6 +49,7 @@ def product_list(request: WSGIRequest) -> HttpResponse:
     cat_id = request.session.get("cat_id", None)
     queryset = Product.objects.order_by('-pk')
     best_rating = request.session.get('best-rating', None)
+    avg_rating = request.GET.get('avg_rating')
 
     if cat_id:
         queryset = queryset.filter(
@@ -58,19 +58,13 @@ def product_list(request: WSGIRequest) -> HttpResponse:
             Q(category__parent_id=cat_id)
 
         )
-
-    avg_rating = request.GET.get('avg_rating')
-    if avg_rating:
+    elif avg_rating:
         queryset = queryset.filter(avg_rating__gte=avg_rating)
-    print(request, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>....')
-    if best_rating:
+    elif best_rating:
            queryset = queryset.order_by(
             '-avg_rating'
             )
-
-
-
-    if search_text:
+    elif search_text:
         queryset = queryset.filter(
             Q(title_uz__icontains=search_text)
             |
@@ -85,9 +79,11 @@ def product_list(request: WSGIRequest) -> HttpResponse:
             Q(short_description_en__icontains=search_text)
         )
 
+
     page_number = request.GET.get("page1", 1)
     paginator_obj = Paginator(queryset, 9)
     page_obj = paginator_obj.get_page(page_number)
+
 
     context = {
         'page_obj': page_obj,

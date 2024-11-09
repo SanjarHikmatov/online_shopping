@@ -268,14 +268,14 @@
                                             <del>{% get_price_by_currency currency product.old_price %}</del>
                                             </h6>
                                         </a>
-
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
                                         {% decimal_to_range product.avg_rating as Star %}
                                         {% for rating in Star %}
                                             <small class="fa fa-star text-primary mr-1"></small>
                                         {% endfor %}
-                                        <h5>({{ product.avg_rating|floatformat:'0' }})</h5>
+
+                                        <h5>({{ product.comment_count }})</h5>
                                     </div>
                                 </div>
                             </div>

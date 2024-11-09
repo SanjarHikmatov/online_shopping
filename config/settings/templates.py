@@ -14,7 +14,7 @@ TEMPLATES = [
 
                 # ===============This is my context=====================
                 'apps.general.context_processors.general_context',
-                'apps.categories.contex_processors.categories_contex',
+                # 'apps.categories.contex_processors.categories_contex',
 
             ],
         },

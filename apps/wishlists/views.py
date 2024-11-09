@@ -32,7 +32,7 @@ def wishlist_create(request):
             if not created:
                 wish.delete()
 
-            return redirect(request.META.get('HTTP_REFERER', 'products:product-list'))
+            return redirect(request.META.get('HTTP_REFERER', 'products:product_list'))
 
 
 def wishlist_delete(request, product_id):

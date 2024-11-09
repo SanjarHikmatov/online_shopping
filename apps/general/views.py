@@ -35,3 +35,4 @@ def flush_session(request):
     elif 'best-rating' in request.session:
         del request.session['best-rating']
     return redirect('products:product_list')
+

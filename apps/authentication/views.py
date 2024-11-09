@@ -48,9 +48,10 @@ def user_register(request):
         return render(request, 'auth/auth-register-basic.html', context)
     form_obj = UserRegisterForm(data=request.POST, )
     try:
-        if form_obj.is_valid():
 
-            form_obj.cleaned_data.pop('confirm_password')
+        if form_obj.is_valid() and form_obj.cleaned_data['confirm_password'] == form_obj.cleaned_data['password']:
+            form_data = form_obj.cleaned_data.copy()
+            form_data.pop('confirm_password')
 
             messages.success(request, 'Register success')
             get_user_model().objects.get_or_create(
@@ -61,8 +62,11 @@ def user_register(request):
                     'password': make_password(form_obj.cleaned_data['password']),
                 }
             )
+            return redirect(settings.LOGIN_URL)
 
-        return redirect(settings.LOGIN_URL)
+        else:
+            messages.error(request, 'Passwords do not match.')
+            return redirect('authentications:register-page')
 
     except KeyError:
         pass

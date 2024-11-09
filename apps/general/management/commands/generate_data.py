@@ -37,19 +37,18 @@ class Command(BaseCommand):
         today = now().date()
         django_filename = f'products/images/{today.year}/{today.month}/{today.day}'
         image_dir = os.path.join(settings.MEDIA_ROOT, django_filename)
-
+        image_name = random_image_download(image_dir)
         counts = 100
         for cat_name in range(10):
             print(counts)
             category = Category.objects.create(
-              name=fake.first_name()
+              name=fake.first_name(),
+              category_image=os.path.join(django_filename,image_name )
             )
             if cat_name % 2:
                 for i in range(3):
                     Category.objects.create(name=fake.first_name(), parent_id=category.pk)
             #============== create child ==============
-            image_name = random_image_download(image_dir)
-
             products = []
 
             for i in range(100):

@@ -1,4 +1,4 @@
-#!/home/sanjar/fintech/online_shopping/venv/bin/python3
+#!/home/sanjar/fintech/online_shopping/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

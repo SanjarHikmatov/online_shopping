@@ -27,7 +27,7 @@ def product_in_wishlist(user_id: int, product_id: int) -> bool:
 def get_price_by_currency(to_currency: str, price: Decimal) -> Decimal:
     if to_currency == General.CurrencyChoices.UZS:
         return price
-    return round(price / CurrencyAmount.get_currency(currency=to_currency),2)
+    return round(price /Decimal( CurrencyAmount.get_currency(currency=to_currency)),2)
 
 
 

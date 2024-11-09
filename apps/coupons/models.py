@@ -7,12 +7,25 @@ class Coupon(models.Model):
     title = models.CharField(max_length=100)
     code = models.CharField(max_length=10, unique=True)
 
-    discount_percent = models.PositiveSmallIntegerField(
-        validators=[MaxValueValidator(100), MinValueValidator(1)]
+    discount_percent = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
     )
-
+    shipping = models.DecimalField(
+        null=True,
+        blank=True,
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0), MaxValueValidator(100)])
 
 
 class UsedCoupon(models.Model):
-    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE)
+    coupon = models.ForeignKey(
+        Coupon,
+        on_delete=models.CASCADE,
+    )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = (('coupon', 'user'),)
