@@ -6,11 +6,14 @@ register = template.Library()
 
 
 @register.simple_tag
-def multiply(cart_price, shipping_price):
-    print(type(cart_price), type(shipping_price))
-    return round((cart_price / 100) * shipping_price, 2)
+def multiply(total_cart_price, shipping):
+    return round((total_cart_price // 100) * shipping, 2)
 
 
 @register.simple_tag
-def add(value1,value2):
-    return Decimal(value1) + value2
+def add(shipping, total_cart_price):
+    return shipping + total_cart_price
+
+@register.simple_tag
+def minus(total_cart_price, discount_percent_coupon):
+    return total_cart_price - discount_percent_coupon

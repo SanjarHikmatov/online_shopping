@@ -1,5 +1,6 @@
 {% extends 'bases/basic.html' %}
 {% load static %}
+{% load product_tags %}
 {% load coupon_tags %}
 {% load i18n %}
 {% block content %}
@@ -28,7 +29,8 @@
                             <td class="align-middle"><img src="{{ cart.product.main_image.url }}" alt=""
                                                           style="width: 50px;"> Product Name
                             </td>
-                            <td class="align-middle">${{ cart.product.price }}</td>
+                            {% get_price_by_currency currency cart.product.price as price %}
+                            <td class="align-middle">{{ price }}    </td>
                             <td class="align-middle">
                                 <form action="{% url 'carts:set-cart-quantity' cart.pk %}" method="post">
                                     {% csrf_token %}
@@ -49,8 +51,8 @@
                                 </div>
                             </form>
                             </td>
-
-                            <td class="align-middle">${{ cart.total_price }}</td>
+                            {% get_price_by_currency currency cart.total_price as total %}
+                            <td class="align-middle">{{ total }}</td>
                             <td class="align-middle">
                                 <button class="btn btn-sm btn-danger">
                                     <a class="btn btn-sm btn-danger"
@@ -69,7 +71,7 @@
                 {% for message in messages %}
                     {{ message }}
                 {% endfor %}
-                <form class="mb-30" action="{% url 'coupn:check-coupon' %}" method="post">
+                <form class="mb-30" action="{% url 'coupon:check-coupon' %}" method="post">
                     {% csrf_token %}
                     <div class="input-group">
                         <input type="text" required class="form-control border-0 p-4" placeholder="Coupon Code" name="coupon_code" value="{{ request.session.coupon_data.code }}">
@@ -84,22 +86,45 @@
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>{{ cart_total_price }} {{ request.session.currency }}</h6>
+                            <h6>{% get_price_by_currency currency cart_total_price %} {{ currency }}</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">150</h6>
+                            <h6>{{ shipping_percent }} % </h6>
                         </div>
+                        {% if request.session.coupon_data %}
+                            <div class="d-flex justify-content-between">
+                                <h6 class="font-weight-medium">Coupon</h6>
+                                <h6>{% get_price_by_currency currency request.session.coupon_data.discount_percent %} %</h6>
+                            </div>
+                        </div>
+                        <div class="pt-2">
+                            <div class="d-flex justify-content-between mt-2">
+                                <h5>Total</h5>
+                                {% multiply cart_total_price shipping_percent as shipping_percent_milt %}
+                                {% add  shipping_percent_milt cart_total_price as add_shipping_percent %}
+                                {% multiply cart_total_price request.session.coupon_data.discount_percent as coupon %}
+                                {% minus add_shipping_percent coupon as minus_coupon %}
+                                <h5>{% get_price_by_currency    currency minus_coupon %} {{ currency }}</h5>
+                            </div>
+                            <a href="{% url 'checkout-page' %}">
+                                <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">{% translate 'Proceed To Checkout' %}</button>
+                            </a>
+                        </div>
+                        {% else %}
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5> 15 </h5>
+                            {% multiply cart_total_price shipping_percent as percent_coupon %}
+                            {% add percent_coupon cart_total_price as add_cart_price_and_shipping %}
+                            <h5>{% get_price_by_currency currency add_cart_price_and_shipping %} {{ currency }}</h5>
                         </div>
                         <a href="{% url 'checkout-page' %}">
                             <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">{% translate 'Proceed To Checkout' %}</button>
                         </a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

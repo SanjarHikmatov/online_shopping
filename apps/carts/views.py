@@ -6,18 +6,35 @@ from pygments.lexer import default
 from apps.carts.models import ProductCard
 from django.db.models import F, Sum
 from apps.coupons.models import UsedCoupon, Coupon
+from apps.general.models import General
+
 
 @login_required
 def cart_page(request):
+
+    # ==== just get and add shipping percent from General to cart page ===============
+    try:
+        shipping_percent = General.objects.first().shipping_percent
+    except AttributeError:
+        shipping_percent = 0
+    # there
     user = request.user
     code = request.session.get('coupon_data', {}).get('code')
-    if code is not None and UsedCoupon.objects.filter(coupon__code=code, user_id=user.pk).exists():
+
+    if code is not None and UsedCoupon.objects.filter(
+            coupon__code=code,
+            user_id=user.pk).exists():
         del request.session['coupon_data']
-    queryset = ProductCard.objects.annotate(total_price=F('quantity') * F('product__price')).filter(user=request.user)
-    cart_total_price = queryset.aggregate(s=Sum('total_price',default=0))['s']
+    queryset = ProductCard.objects.annotate(
+        total_price=F('quantity') * F('product__price')).filter(
+        user=request.user)
+    cart_total_price = queryset.aggregate(
+        s=Sum('total_price',
+              default=0))['s']
     context = {
         'cart_user': queryset.select_related('product'),
         'cart_total_price': cart_total_price,
+        'shipping_percent': shipping_percent,
     }
     return render(request=request, template_name='cart.html', context=context)
 

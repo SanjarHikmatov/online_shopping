@@ -27,18 +27,27 @@ class CustomUserManager(UserManager):
 
 class CustomUser(AbstractUser):
     username = None
+    first_name = models.CharField(max_length=30, blank=True, null=True)
+    last_name = models.CharField(max_length=30, blank=True, null=True)
     email = models.EmailField(unique=True)
     photo = models.ImageField(
         upload_to=user_photo_location,
         null=True,
         blank=True
     )
-
-
     objects = CustomUserManager()
 
     user_wishlist_count = models.PositiveSmallIntegerField(default=0)
     user_cart_count = models.PositiveSmallIntegerField(default=0)
     user_comments_count = models.PositiveSmallIntegerField(default=0)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
+
+    # ======== Extra fields ===================
+
+    phone_number = models.CharField(max_length=13, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True)
+    region = models.CharField(max_length=255, blank=True)
+    district = models.CharField(max_length=255, blank=True)
+    zip_code = models.CharField(max_length=15, blank=True)

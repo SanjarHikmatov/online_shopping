@@ -1,5 +1,6 @@
 import requests
 from django.core.cache import cache
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.timezone import now
 
@@ -35,9 +36,12 @@ class General(models.Model):
         blank=True
     )
     logo = models.ImageField(upload_to="general/logo/image/%Y/%m/%d/")
+    shipping_percent = models.PositiveSmallIntegerField(
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     def clean(self):
-        if self.pk and General.objects.exists():
+        if not self.pk and General.objects.exists():
             raise ValidationError('Unique')
 
 
@@ -76,3 +80,7 @@ class CurrencyAmount(models.Model):
         return amount_in_uzs
     class Meta:
         unique_together = (('currency', 'date'),)
+
+
+class PaymentMethod(models.Model):
+    name = models.CharField(max_length=100, unique=True)

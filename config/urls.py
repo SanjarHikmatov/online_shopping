@@ -18,7 +18,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.main.views import home, checkout
+from apps.main.views import home
 
 from apps.categories.views import category, set_category
 from django.conf import settings
@@ -54,7 +54,7 @@ urlpatterns += i18n_patterns(
     path('contact/', include('apps.contact.urls', namespace='contacts')),
 
    #============ checkout ==============
-    path('checkout/', checkout, name='checkout-page'),
+    path('checkout/', include('apps.orders.urls')),
 
    #=========== products ====================
     path('products/', include('apps.products.urls', namespace='products')),

@@ -8,10 +8,6 @@ def home(request):
 
 
 
-def checkout(request):
-    return render(request, template_name='checkout.html', context={'page': 'pages'})
-
-
 
 
 
