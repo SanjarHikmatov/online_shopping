@@ -11,7 +11,7 @@ class Category(models.Model):
                                on_delete=models.CASCADE,
                                related_query_name='category'
                                )
-    category_image = models.ImageField(upload_to='categories/images/%Y/%m/%d')
+    category_image = models.ImageField(upload_to='categories/images/%Y/%m/%d', blank=True, null=True)
 
 
     def clean(self):
@@ -23,3 +23,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ('name',)

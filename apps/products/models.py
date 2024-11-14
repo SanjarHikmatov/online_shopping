@@ -51,7 +51,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     added_at = models.DateTimeField(auto_now_add=True)
 
-    main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/', blank=True)
+    main_image = models.ImageField(upload_to='products/images/%Y/%m/%d/')
 
     @property
     def features(self):
@@ -98,7 +98,7 @@ class ProductImage(models.Model):
 
 class ProductFeature(models.Model):
     product = models.ForeignKey('products.Product', on_delete=models.CASCADE, related_name='product_features')
-    feature_values = models.ManyToManyField('features.FeatureValue')
+    feature_values = models.ManyToManyField('features.FeatureValue', related_name='product_features_values')
     price = models.DecimalField(
         max_digits=20,
         decimal_places=2,

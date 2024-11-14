@@ -26,4 +26,5 @@ def update_related_images(sender, instance, **kwargs):
 
             if old_file and old_file != new_file and os.path.exists(old_file.path):
                 os.remove(old_file.path)
-                
+
+

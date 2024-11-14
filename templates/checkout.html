@@ -51,7 +51,6 @@
                                 <label>Mobile No</label>
                                 <input class="form-control" name="phone_number" value="{{ user.phone_number }}" type="text" placeholder="+998974559995">
                             </div>
-
                             <div class="col-md-6 form-group">
                                 <label>Address</label>
                                 <input class="form-control" name="address" value="{{ user.address }}" type="text" placeholder="123 Street">
@@ -103,7 +102,6 @@
                             <h6 class="font-weight-medium">Coupon</h6>
                             <h6 class="font-weight-medium">{{ request.session.coupon_data.discount_percent }} % </h6>
                             <input type="hidden" name="coupon" value="{{ request.session.coupon_data.discount_percent }}">
-
                         </div>
                         {% endif %}
                     </div>

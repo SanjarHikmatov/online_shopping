@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-24 05:17+0500\n"
+"POT-Creation-Date: 2024-11-14 11:34+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,14 +50,14 @@ msgstr "О нас"
 
 #: templates/auth/auth-login-basic.html:68
 #: templates/auth/auth-register-basic.html:69 templates/bases/basic.html:121
-#: templates/bases/basic.html:187
+#: templates/bases/basic.html:186
 msgid "Multi"
 msgstr "Multi"
 
 #: templates/auth/auth-login-basic.html:69
 #: templates/auth/auth-register-basic.html:70 templates/bases/basic.html:122
-#: templates/bases/basic.html:188 templates/bases/basic.html:198
-#: templates/bases/basic.html:272
+#: templates/bases/basic.html:187 templates/bases/basic.html:197
+#: templates/bases/basic.html:271
 msgid "Shop"
 msgstr "Магазин"
 
@@ -70,8 +70,10 @@ msgid "Please sign-in to your account and start the adventure"
 msgstr "Пожалуйста, войдите в свой аккаунт и начните приключение"
 
 #: templates/auth/auth-login-basic.html:93
-msgid "Email or Username"
-msgstr "Электронная почта или имя пользователя"
+#, fuzzy
+#| msgid " Enter your email "
+msgid "Enter your email"
+msgstr "Электронная почта пользователя"
 
 #: templates/auth/auth-login-basic.html:106
 #: templates/auth/auth-register-basic.html:96
@@ -137,8 +139,8 @@ msgstr "Войти вместо этого"
 msgid "About"
 msgstr "О нас"
 
-#: templates/bases/basic.html:39 templates/bases/basic.html:201
-#: templates/bases/basic.html:260
+#: templates/bases/basic.html:39 templates/bases/basic.html:200
+#: templates/bases/basic.html:259
 msgid "Contact"
 msgstr "Контакт"
 
@@ -166,81 +168,148 @@ msgstr "Обслуживание клиентов"
 msgid "Categories"
 msgstr "Категории"
 
-#: templates/bases/basic.html:196 templates/bases/basic.html:268
+#: templates/bases/basic.html:195 templates/bases/basic.html:267
 msgid "Home"
 msgstr "Главная"
 
-#: templates/bases/basic.html:203
+#: templates/bases/basic.html:202
 msgid "About us"
 msgstr "О нас"
 
-#: templates/bases/basic.html:235
+#: templates/bases/basic.html:234
 msgid "Get In Touch"
 msgstr "Связаться с нами"
 
-#: templates/bases/basic.html:240
+#: templates/bases/basic.html:239
 msgid "123 Street, New York, USA"
 msgstr "Улица 123, Нью-Йорк, США"
 
-#: templates/bases/basic.html:247
+#: templates/bases/basic.html:246
 msgid "Quick Shop"
 msgstr "Быстрый магазин"
 
-#: templates/bases/basic.html:252 templates/bases/basic.html:270
+#: templates/bases/basic.html:251 templates/bases/basic.html:269
 msgid "Our Shop"
 msgstr "Наш магазин"
 
-#: templates/bases/basic.html:256 templates/bases/basic.html:275
+#: templates/bases/basic.html:255 templates/bases/basic.html:274
 msgid "Shopping Cart"
 msgstr "Корзина покупок"
 
-#: templates/bases/basic.html:258 templates/bases/basic.html:277
+#: templates/bases/basic.html:257 templates/bases/basic.html:276
 msgid "Checkout"
 msgstr "Оформление заказа"
 
-#: templates/bases/basic.html:279
+#: templates/bases/basic.html:278
 msgid "Contact Us"
 msgstr "Связаться с нами"
 
-#: templates/bases/basic.html:283
+#: templates/bases/basic.html:282
 msgid "Newsletter"
 msgstr "Информационный бюллетень"
 
-#: templates/bases/basic.html:289
+#: templates/bases/basic.html:288
 msgid "Sign Up"
 msgstr "Зарегистрироваться"
 
-#: templates/bases/basic.html:293
+#: templates/bases/basic.html:292
 msgid "Follow Us"
 msgstr "Подписывайтесь на нас"
 
-#: templates/bases/basic.html:309
+#: templates/bases/basic.html:308
 msgid "HTML Codex"
 msgstr "HTML Кодекс"
 
-#: templates/cart.html:18
+#: templates/cart.html:19
 msgid "Products"
 msgstr "Продукты"
 
-#: templates/cart.html:19
+#: templates/cart.html:20
 msgid "Price"
 msgstr "Цена"
 
-#: templates/cart.html:20
+#: templates/cart.html:21
 msgid "Quantity"
 msgstr "Количество"
 
-#: templates/cart.html:21
+#: templates/cart.html:22
 msgid "Total"
 msgstr "Итого"
 
-#: templates/cart.html:22
+#: templates/cart.html:23
 msgid "Remove"
 msgstr "Удалить"
 
-#: templates/cart.html:92
+#: templates/cart.html:111 templates/cart.html:124
 msgid "Proceed To Checkout"
 msgstr "Перейти к оформлению заказа"
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:434
+msgid "open('foo"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:438
+msgid "open(\"foo"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:442
+#, python-format
+msgid "%ls foo"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:604
+msgid "a[0]."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:611
+msgid "a[0].r"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:619
+msgid "a[0].from_"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:626
+msgid "assert str.star"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:633
+msgid "d['a b'].str"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:640
+msgid "a.app"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1600
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1622
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1625
+msgid "do not suppress"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1601
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1613
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1616
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1619
+msgid "suppress all"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1602
+msgid "suppress all but a"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1603
+msgid "suppress all but c"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1651
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1654
+msgid "---"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/IPython/core/tests/test_completer.py:1657
+msgid "--"
+msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/contrib/messages/apps.py:16
 msgid "Messages"
@@ -1464,6 +1533,14 @@ msgstr ""
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:236
 msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django_ckeditor_5/views.py:77
+msgid "Page not found."
+msgstr ""
+
+#: venv/lib/python3.12/site-packages/django_ckeditor_5/widgets.py:43
+msgid "Check the correct settings.CKEDITOR_5_CONFIGS "
 msgstr ""
 
 #: venv/lib/python3.12/site-packages/modeltranslation/widgets.py:32

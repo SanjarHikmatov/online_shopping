@@ -17,7 +17,8 @@
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
                     <div class="carousel-item active">
-                        <img class="w-100" src="{{ product.main_image.url }}" alt="Image" style="height: 500px;">
+                        {% if product.main_image %}
+                            <img class="w-100" src="{{ product.main_image.url }}" alt="Image" style="height: 500px;">{% endif %} 
                     </div>
                     {% for product_image in product.images.all %}
                     <div class="carousel-item">
@@ -161,7 +162,11 @@
                     <div class="tab-pane fade" id="tab-pane-3">
                         <div class="row">
                             <div class="col-md-6">
+                            {% if comments %}
+                            	
                                 <h4 class="mb-4">{{ product.comment_count }} review for"{{ product.title|truncatechars:20 }}"</h4>
+                            {% endif %} 
+                            
                                 {% for comment in comments_page_obj %}
                                 <div class="media mb-4">
                                     <img src="{{ comment.product.main_image.url }}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 100px;">
@@ -268,7 +273,7 @@
                                     </div>
                                     {% else %}
                                         <input name="name" type="hidden" class="form-control"
-                                               value="{{ user.username }}">
+                                               value="{{ user.first_name }}">
                                         <input type="hidden" name="email" class="form-control"
                                                value="{{ user.email }}">
                                     {% endif %}

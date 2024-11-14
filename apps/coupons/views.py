@@ -15,6 +15,7 @@ def check_coupon(request):
     #     return redirect(request.META.get('HTTP_REFERER'))
     try:
         coupon = Coupon.objects.get(code=code)
+
     except Coupon.DoesNotExist:
         if request.session.get('coupon_data'):
             del request.session['coupon_data']
@@ -23,8 +24,9 @@ def check_coupon(request):
         if UsedCoupon.objects.filter(coupon_id=coupon.pk, user_id=request.user.pk).exists():
             if request.session.get('coupon_data'):
                 del request.session['coupon_data']
-            messages.warning(request, 'this coupon has alredy')
+            messages.warning(request, 'this coupon has already been used 🫠🫠')
         else:
+            UsedCoupon.objects.create(coupon=coupon, user_id=request.user.pk)
             request.session['coupon_data'] = {
                 'pk': coupon.pk,
                 'code': code,

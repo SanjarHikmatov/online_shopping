@@ -3,6 +3,8 @@ from django.db import transaction
 from apps.carts.models import ProductCard
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+
+from apps.coupons.models import UsedCoupon
 from apps.general.models import General, PaymentMethod
 from apps.orders.forms import OrdersForm
 
@@ -43,7 +45,6 @@ def create_order(request):
         return redirect('home-page')
 
     form = OrdersForm(data=request.POST)
-    print(request.POST)
     if form.is_valid():
         order = form.save(commit=False)
         order.user = request.user
@@ -53,4 +54,5 @@ def create_order(request):
         messages.error(request, form.errors)
     if request.session.get('coupon_data'):
         del request.session['coupon_data']
+
     return redirect(request.META.get('HTTP_REFERER'))

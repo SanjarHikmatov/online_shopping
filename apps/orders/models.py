@@ -15,11 +15,12 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False, editable=False)
     paid_at = models.DateTimeField(blank=True, null=True)
 
-    coupon = models.ForeignKey('coupons.Coupon', on_delete=models.PROTECT, null=True, blank=True)
+    coupon = models.ForeignKey('coupons.Coupon', on_delete=models.SET_NULL, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.is_paid and self.paid_at:
             self.paid_at = now()
+
         super().save(*args, **kwargs)
 
 class OrderProduct(models.Model):
