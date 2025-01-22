@@ -15,3 +15,6 @@ class TemplateAboutsView(TemplateView):
     extra_context = {
         'abouts': About.objects.all()
     }
+
+
+
