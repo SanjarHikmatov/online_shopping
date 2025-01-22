@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.db import models
 from apps.comments.models import ProductComment
 from apps.general.models import General
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator
 
 
 

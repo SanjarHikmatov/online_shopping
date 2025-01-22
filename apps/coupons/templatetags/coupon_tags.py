@@ -1,6 +1,6 @@
-from decimal import Decimal
 
 from django import template
+from django.db.models.expressions import NoneType
 
 register = template.Library()
 
@@ -8,7 +8,6 @@ register = template.Library()
 @register.simple_tag
 def multiply(total_cart_price, shipping):
     return round((total_cart_price // 100) * shipping, 2)
-
 
 @register.simple_tag
 def add(shipping, total_cart_price):

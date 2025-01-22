@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect
-
 from apps.categories.models import Category
-from apps.products.templatetags.product_tags import get_price_by_currency
 
 
 def category(request):

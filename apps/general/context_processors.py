@@ -5,7 +5,7 @@ from apps.products.models import Product
 
 def general_context(request):
     context = {
-        'categories': Category.objects.prefetch_related('children','products').filter(parent__isnull=True),
+        'categories': Category.objects.prefetch_related('children', 'products').filter(parent__isnull=True),
         'general': General.objects.all(),
         'general_social_media': GeneralSocialMedia.objects.all(),
         'currency': request.session.get('currency', General.DEFAULT_CURRENCY),

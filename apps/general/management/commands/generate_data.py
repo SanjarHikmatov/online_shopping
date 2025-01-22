@@ -12,7 +12,7 @@ from apps.abouts.models import About
 from apps.categories.models import Category
 from apps.products.models import Product
 from apps.general.models import General
-from apps.general.service import random_image_url, random_image_download
+from apps.general.service import random_image_download
 
 fake = Faker()
 class Command(BaseCommand):
@@ -43,12 +43,13 @@ class Command(BaseCommand):
             print(counts)
             category = Category.objects.create(
               name=fake.first_name(),
-              category_image=os.path.join(django_filename,image_name )
+              image=os.path.join(django_filename, image_name )
             )
+
+            #============== create child ==============
             if cat_name % 2:
                 for i in range(3):
                     Category.objects.create(name=fake.first_name(), parent_id=category.pk)
-            #============== create child ==============
             products = []
 
             for i in range(100):
@@ -56,8 +57,6 @@ class Command(BaseCommand):
                 products.append(
                     Product(
                         title=fake.text(255),
-                        price=random.randint(5, 500),
-                        old_price=random.randint(500, 1000),
                         currency=random.choice(General.CurrencyChoices.choices)[0],
                         short_description=fake.text(500),
                         long_description=fake.text(500),

@@ -138,52 +138,26 @@
 
             </div>
         </div>
-{#    {% for category in categories %}#}
-{#        {% if category.children.exists %}#}
-{#            <div class="nav-item dropdown dropright ">#}
-{#                <a href="{% url 'set-category' cat_id=category.pk %}"#}
-{#                   class="nav-link dropdown-toggle {% if request.session.cat_id == category.pk %} active {% endif %} "#}
-{#                   data-toggle="dropdown">{{ category.name }} <i class="fa fa-angle-right float-right mt-1 "></i></a>#}
-{#                <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">#}
-{#                    {% for child in category.children.all %}#}
-{#                        <a href="{% url 'set-category' cat_id=child.pk %}"#}
-{#                           class="dropdown-item {% if request.session.cat_id == child.pk %} active {% endif %}">#}
-{#                            {{ child.name }}#}
-{#                        </a>#}
-{#                    {% endfor %}#}
-{##}
-{#                </div>#}
-{#            </div>#}
-{#        {% else %}#}
-{#            <a href="{% url 'set-category' cat_id=category.pk %}"#}
-{#               class="nav-item nav-link {% if request.session.cat_id == category.pk %} active {% endif %}">{{ category.name }}</a>#}
-{#        {% endif %}#}
-{#    {% endfor %}#}
-    <!-- Categories End -->
-
-
     <!-- Products Start -->
     <div class="container-fluid pt-5 pb-3">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span>
         </h2>
         <div class="row px-xl-5">
-            {% for product in products %}
-                {% if product.avg_rating %}
+            {% for category in categories %}
+                {% if category.products %}
                     <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                         <div class="product-item bg-light mb-4">
                             <div style="height: 400px" class="product-img position-relative overflow-hidden">
-                                {% if product.main_image %}
-                                    <img src="{{ product.main_image.url }}" alt="" width="300" height="500">
-                                {% else %}
-                                    <img class="img-fluid w-100" src="default-image-url" alt="">
+                                {% if category.products.main_image %}
+                                    <img src="{{ category.products.main_image.first.url }}" alt="" width="300" height="500">
                                 {% endif %}
                                 <div class="product-action">
                                     <form method="post"
-                                          action="{% url 'carts:create-cart' product_id=product.id %}">
+                                          action="{% url 'carts:create-cart' product_id=category.products.first.id %}">
                                         {% csrf_token %}
-                                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                                        <input type="hidden" name="product_id" value="{{ category.products.first.id }}">
                                         <button type="submit" class="btn btn-outline-dark btn-square wishlist-btn">
-                                            {% if not product.id in cart_user %}
+                                            {% if not category.products.first.id in cart_user %}
                                                 <i class="fa fa-shopping-cart active"></i>
                                             {% else %}
                                                 <i class="fa fa-shopping-cart"></i>
@@ -196,9 +170,9 @@
                                     <!-- Wishlist form -->
                                     <form method="post" action="{% url 'wishlists:wishlist-create' %}">
                                         {% csrf_token %}
-                                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                                        <input type="hidden" name="product_id" value="{{ category.products.first.id }}">
                                         <button type="submit" class="btn btn-outline-dark btn-square wishlist-btn">
-                                            {% if product.id in user_wishlist %}
+                                            {% if category.products.first.id in user_wishlist %}
                                                 <i class="fa fa-heart active"></i>
                                             {% else %}
                                                 <i class="far fa-heart"></i>
@@ -210,32 +184,32 @@
                                         <i class="fa fa-sync-alt"></i>
                                     </a>
                                     <a class="btn btn-outline-dark btn-square"
-                                       href="{% url 'products:detail-page' pk=product.pk %}">
+                                       href="{% url 'products:detail-page' pk=category.products.first.pk %}">
                                         <i class="fa fa-search"></i>
                                     </a>
                                 </div>
                             </div>
                             <div class="text-center py-4">
                                 <a class="h6 text-decoration-none text-truncate"
-                                   href="{% url 'products:detail-page' product.id %}">
-                                    {{ product.title|truncatechars:20 }}</a>
+                                   href="{% url 'products:detail-page' category.products.first.id %}">
+                                    {{ category.products.first.title|truncatechars:20 }}</a>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <a href="{% url 'products:detail-page' product.id %}">
-                                        <h5>{% get_price_by_currency currency product.price %}</h5>
+                                    <a href="{% url 'products:detail-page' category.products.first.id %}">
+                                        <h5>{% get_price_by_currency currency category.products.first.price %}</h5>
                                     </a>
-                                    <a href="{% url 'products:detail-page' product.id %}">
+                                    <a href="{% url 'products:detail-page' category.products.first.id %}">
                                         <h6 class="text-muted ml-2">
-                                            <del>{% get_price_by_currency currency product.old_price %}</del>
+                                            <del>{% get_price_by_currency currency category.product.first.old_price %}</del>
                                         </h6>
                                     </a>
 
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mb-1">
-                                    {% decimal_to_range product.avg_rating as Star %}
+                                    {% decimal_to_range category.products.first.avg_rating as Star %}
                                     {% for rating in Star %}
                                         <small class="fa fa-star text-primary mr-1"></small>
                                     {% endfor %}
-                                    <h5>({{ product.avg_rating|floatformat:'0' }})</h5>
+                                    <h5>({{ category.product.first.avg_rating|floatformat:'0' }})</h5>
                                 </div>
                             </div>
                         </div>
@@ -281,22 +255,23 @@
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Featured Products</span>
         </h2>
         <div class="row px-xl-5">
-            {% for product in products %}
+            {% for category in categories %}
+                {% if category.products.avg_rating %}
                 <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                     <div class="product-item bg-light mb-4">
                         <div style="height: 400px" class="product-img position-relative overflow-hidden">
-                            {% if product.main_image %}
-                                <img src="{{ product.main_image.url }}" alt="" width="300" height="500">
+                            {% if category.products.first.main_image %}
+                                <img src="{{ category.products.first.main_image.url }}" alt="" width="300" height="500">
                             {% else %}
                                 <img class="img-fluid w-100" src="default-image-url" alt="">
                             {% endif %}
                             <div class="product-action">
                                 <form method="post"
-                                      action="{% url 'carts:create-cart' product_id=product.id %}">
+                                      action="{% url 'carts:create-cart' product_id=category.products.first.id %}">
                                     {% csrf_token %}
-                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <input type="hidden" name="product_id" value="{{ category.products.first.id }}">
                                     <button type="submit" class="btn btn-outline-dark btn-square wishlist-btn">
-                                        {% if not product.id in cart_user %}
+                                        {% if not category.products.first.id in cart_user %}
                                             <i class="fa fa-shopping-cart active"></i>
                                         {% else %}
                                             <i class="fa fa-shopping-cart"></i>
@@ -309,9 +284,9 @@
                                 <!-- Wishlist form -->
                                 <form method="post" action="{% url 'wishlists:wishlist-create' %}">
                                     {% csrf_token %}
-                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <input type="hidden" name="product_id" value="{{ category.products.first.id }}">
                                     <button type="submit" class="btn btn-outline-dark btn-square wishlist-btn">
-                                        {% if product.id in user_wishlist %}
+                                        {% if category.products.first.id in user_wishlist %}
                                             <i class="fa fa-heart active"></i>
                                         {% else %}
                                             <i class="far fa-heart"></i>
@@ -323,36 +298,37 @@
                                     <i class="fa fa-sync-alt"></i>
                                 </a>
                                 <a class="btn btn-outline-dark btn-square"
-                                   href="{% url 'products:detail-page' pk=product.pk %}">
+                                   href="{% url 'products:detail-page' pk=category.products.first.pk %}">
                                     <i class="fa fa-search"></i>
                                 </a>
                             </div>
                         </div>
                         <div class="text-center py-4">
                             <a class="h6 text-decoration-none text-truncate"
-                               href="{% url 'products:detail-page' product.id %}">
-                                {{ product.title|truncatechars:20 }}</a>
+                               href="{% url 'products:detail-page' category.products.first.id %}">
+                                {{ category.products.first.title|truncatechars:20 }}</a>
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                <a href="{% url 'products:detail-page' product.id %}">
-                                    <h5>{% get_price_by_currency currency product.price %}</h5>
+                                <a href="{% url 'products:detail-page' category.products.first.id %}">
+                                    <h5>{% get_price_by_currency currency category.products.first.price %}</h5>
                                 </a>
-                                <a href="{% url 'products:detail-page' product.id %}">
+                                <a href="{% url 'products:detail-page' category.products.first.id %}">
                                     <h6 class="text-muted ml-2">
-                                        <del>{% get_price_by_currency currency product.old_price %}</del>
+                                        <del>{% get_price_by_currency currency category.products.first.old_price %}</del>
                                     </h6>
                                 </a>
 
                             </div>
                             <div class="d-flex align-items-center justify-content-center mb-1">
-                                {% decimal_to_range product.avg_rating as Star %}
+                                {% decimal_to_range category.products.first.avg_rating as Star %}
                                 {% for rating in Star %}
                                     <small class="fa fa-star text-primary mr-1"></small>
                                 {% endfor %}
-                                <h5>({{ product.avg_rating|floatformat:'0' }})</h5>
+                                <h5>({{ category.products.first.avg_rating|floatformat:'0' }})</h5>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

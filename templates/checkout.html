@@ -88,7 +88,7 @@
                     <div class="border-bottom pt-3 pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>{% get_price_by_currency currency total_cart  as total_price%} {{ currency }}</h6>
+                            <h6>{% get_price_by_currency currency total_cart  as total_price %} {{ currency }}</h6>
                             <input type="hidden" name="total_price" value="{{ total_price }}">
 
                         </div>
@@ -124,7 +124,13 @@
                         {% for payment_method in payment_methods %}
                         	<div class="form-group">
                             <div class="custom-control custom-radio">
-                                <input type="radio" checked class="custom-control-input" name="payment_method" id="{{ payment_method.pk }}" value="{{ payment_method.pk }}">
+                                <input 
+                                        type="radio" 
+                                        checked 
+                                        class="custom-control-input" 
+                                        name="payment_method" 
+                                        id="{{ payment_method.pk }}" 
+                                        value="{{ payment_method.pk }}">
                                 <label class="custom-control-label" for="{{ payment_method.pk }}">{{ payment_method.name }}</label>
                             </div>
                         </div>

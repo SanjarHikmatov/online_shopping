@@ -74,7 +74,12 @@
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="number" minlength="1" name="cart_quantity" class="form-control bg-secondary border-0 text-center" value="{{ user_cart_quantity }}">
+                            <input 
+                                    type="number" 
+                                    minlength="1" 
+                                    name="cart_quantity" 
+                                    class="form-control bg-secondary border-0 text-center" 
+                                    value="{{ user_cart_quantity }}">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-primary btn-plus">
                                     <i class="fa fa-plus"></i>
@@ -272,10 +277,16 @@
                                         <input type="email" name="email" class="form-control" id="email">
                                     </div>
                                     {% else %}
-                                        <input name="name" type="hidden" class="form-control"
-                                               value="{{ user.first_name }}">
-                                        <input type="hidden" name="email" class="form-control"
-                                               value="{{ user.email }}">
+                                        <input 
+                                                name="name" 
+                                                type="hidden" 
+                                                class="form-control"
+                                                value="{{ user.first_name }}">
+                                        <input 
+                                                type="hidden" 
+                                                name="email" 
+                                                class="form-control"
+                                                value="{{ user.email }}">
                                     {% endif %}
 
                                     <div class="form-group mb-0">

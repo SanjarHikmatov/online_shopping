@@ -1,60 +1,73 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.dateparse import parse_time
-from pygments.lexer import default
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, get_object_or_404
+from django.views.generic import ListView, CreateView
 
 from apps.carts.models import ProductCard
 from django.db.models import F, Sum
-from apps.coupons.models import UsedCoupon, Coupon
+from apps.coupons.models import UsedCoupon
 from apps.general.models import General
 
 
-@login_required
-def cart_page(request):
+class CartPageListView(LoginRequiredMixin, ListView):
+    """  """
+    allow_empty = False
+    template_name = 'cart.html'
+    context_object_name = 'object_list'
 
-    # ==== just get and add shipping percent from General to cart page ===============
-    try:
-        shipping_percent = General.objects.first().shipping_percent
-    except AttributeError:
-        shipping_percent = 0
-    # there
-    user = request.user
-    code = request.session.get('coupon_data', {}).get('code')
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    if code is not None and UsedCoupon.objects.filter(
-            coupon__code=code,
-            user_id=user.pk).exists():
-        del request.session['coupon_data']
-    queryset = ProductCard.objects.annotate(
-        total_price=F('quantity') * F('product__price')).filter(
-        user=request.user)
-    cart_total_price = queryset.aggregate(
-        s=Sum('total_price',
-              default=0))['s']
-    context = {
-        'cart_user': queryset.select_related('product'),
-        'cart_total_price': cart_total_price,
-        'shipping_percent': shipping_percent,
-    }
-    return render(request=request, template_name='cart.html', context=context)
+        try:
+            shipping_percent = General.objects.first().shipping_percent
+        except AttributeError:
+            shipping_percent = 0
 
 
-@login_required
-def create_cart(request, product_id):
-    obj, create = ProductCard.objects.get_or_create(user_id=request.user.id, product_id=product_id)
-    quantity = request.POST.get('cart_quantity', 1)
+        cart_total_price = 0
+        queryset  = self.get_queryset()
 
-    print(quantity)
+        if queryset:
+            cart_total_price = queryset.aggregate(
+                s=Sum('total_price', default=0)
+            )['s'] or 0
 
-    if obj.quantity != quantity:
-        obj.quantity = quantity
-        obj.save()
+        context['shipping_percent'] = shipping_percent
+        context['cart_total_price'] = cart_total_price
 
-    if not create:
-        obj.delete()
+        return context
 
-    return redirect(request.META['HTTP_REFERER'])
+    def get_queryset(self):
+        user = self.request.user
+        code = self.request.session.get('coupon_data', {}).get('code')
 
+        if code is not None and UsedCoupon.objects.filter(
+                coupon__code=code,
+                user_id=user.pk).exists():
+            del self.request.session['coupon_data']
+
+        queryset = ProductCard.objects.annotate(
+            total_price=F('quantity') * F('product__price')
+        ).filter(user=self.request.user)
+        return queryset
+
+
+
+class CreateCartView(LoginRequiredMixin, CreateView):
+    fields = '__all__'
+    model = ProductCard
+    template_name = 'cart.html'
+    success_url = '/HTTP_REFERER/'
+
+    def form_valid(self, form):
+        obj, create = self.model.objects.get_or_create(
+            user_id=self.request.user.pk,
+            product_id=form.cleaned_data['product_id'],
+        )
+        quantity = self.request.POST.get('cart_quantity', 1)
+
+        if obj.quantity != quantity:
+            obj.quantity = quantity
+            obj.save()
 
 def delete_cart(request, product_id):
     """
